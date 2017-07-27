@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include "bitmap_file_header.h"
 
 using std::cout;
 using std::endl;
