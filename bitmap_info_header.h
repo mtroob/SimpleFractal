@@ -15,6 +15,8 @@ using std::uint16_t;
 
 #pragma pack(push, 2)
 
+namespace fractal {
+
 struct BitmapInfoHeader {
 	uint32_t header_size{40};
 	uint32_t width;
@@ -28,6 +30,8 @@ struct BitmapInfoHeader {
 	uint32_t colors{0};
 	uint32_t important_colors{0};
 };
+
+}
 
 #pragma pack(pop)
 
