@@ -38,7 +38,7 @@ public:
 private:
 	uint32_t _width;
 	uint32_t _height;
-	unique_ptr<Color> _pixel_buffer;
+	unique_ptr<Color[]> _pixel_buffer;
 };
 
 } /* namespace fractal */
