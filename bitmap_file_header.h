@@ -11,11 +11,12 @@
 #include <cstdint>
 
 using std::uint32_t;
+using std::uint8_t;
 
 #pragma pack(push, 2)
 
 struct BitmapFileHeader {
-	char header[2]{'B', 'M'};
+	uint8_t header[2]{'B', 'M'};
 	uint32_t file_size;
 	uint32_t reserved{0};
 	uint32_t data_offset;
