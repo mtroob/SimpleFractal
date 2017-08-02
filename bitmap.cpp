@@ -6,11 +6,13 @@
  */
 
 #include <fstream>
+#include <string>
 
 #include "bitmap.h"
 #include "bitmap_file_header.h"
 #include "bitmap_info_header.h"
 
+using std::string;
 using std::ofstream;
 using std::ios;
 
