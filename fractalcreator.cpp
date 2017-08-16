@@ -5,6 +5,7 @@
  *      Author: michael
  */
 #include <math.h>
+#include <algorithm>
 
 #include "fractalcreator.h"
 #include "mandelbrot.h"
@@ -14,19 +15,19 @@ namespace fractal {
 FractalCreator::FractalCreator(int width, int height) :
 		_width(width), _height(height),
 		_bitmap(width, height), _zoom_list(width, height),
-		_histogram(new int[Mandelbrot::MAX_ITERATIONS]{0}),
-		_fractal (new int[width*height]{0}) {}
+		_histogram(Mandelbrot::MAX_ITERATIONS, 0),
+		_fractal(width*height) {}
 
 FractalCreator::~FractalCreator() {
 
 }
 
-void FractalCreator::calculateIteration() {
-	for (int y = 0; y < _height; ++y) {
-		for (int x = 0; x < _width; ++x) {
+void FractalCreator::calcuclateIterationsPerPixel() {
+	for (uint y = 0; y < _height; ++y) {
+		for (uint x = 0; x < _width; ++x) {
 			auto fractal_coords = _zoom_list.ZoomIn(x, y);
 
-			int iterations = Mandelbrot::iterate(fractal_coords.first, fractal_coords.second);
+			uint iterations = Mandelbrot::iterate(fractal_coords.first, fractal_coords.second);
 
 			if (iterations != Mandelbrot::MAX_ITERATIONS)
 				++_histogram[iterations];
@@ -36,21 +37,40 @@ void FractalCreator::calculateIteration() {
 	}
 }
 
+void FractalCreator::calcualtePixelsPerColorRange() {
+	int range_number = 1;
+	for (uint i = 0; i < Mandelbrot::MAX_ITERATIONS; ++i) {
+		if (i >= _ranges[range_number])
+			++range_number;
+
+		_pixels_in_range[range_number-1] += _histogram[i];
+	}
+}
+
 void FractalCreator::drawFractal() {
+
 	int total = 0;
 	for(auto i = 0; i < Mandelbrot::MAX_ITERATIONS; ++i)
 		total += _histogram[i];
 
-	for (int y = 0; y < _height; ++y) {
-		for (int x = 0; x < _width; ++x) {
-			int iterations = _fractal[y*_width + x];
-			Color cl{0, 0, 0};
+	for (uint y = 0; y < _height; ++y) {
+		for (uint x = 0; x < _width; ++x) {
+			uint iterations = _fractal[y*_width + x];
+			Color cl = {0, 0, 0};
+
 			if (iterations != Mandelbrot::MAX_ITERATIONS) {
 				double hue = 0.0;
-				for (auto i = 0; i <= iterations; ++i)
+				auto range = getRange(iterations);
+
+				auto& start_color = _colors[range];
+				auto& end_color = _colors[range+1];
+				auto color_diff = end_color - start_color;
+
+				for (uint i = _ranges[range]; i <= iterations; ++i)
 					hue += _histogram[i];
-				hue /= total;
-				cl.blue = pow(255, hue);
+				hue /= _pixels_in_range[range];
+
+				cl = start_color + color_diff*hue;
 			}
 			_bitmap.setPixel(x, y, cl);
 		}
@@ -59,6 +79,26 @@ void FractalCreator::drawFractal() {
 
 void FractalCreator::addZoom(const Zoom& zoom) {
 	_zoom_list.add(zoom);
+}
+
+void FractalCreator::addRange(float range_end, const Color& color) {
+	_ranges.push_back(range_end * Mandelbrot::MAX_ITERATIONS);
+	_colors.push_back(color);
+
+	if (_ranges.size() > 1)
+		_pixels_in_range.push_back(0);
+}
+
+uint FractalCreator::getRange(uint iterations) const {
+	uint range = 0;
+
+	for(uint i = 1; i < _ranges.size(); ++i) {
+		range = i - 1;
+		if (_ranges[i] > iterations)
+			break;
+	}
+
+	return range;
 }
 
 void FractalCreator::writeBitmap(const string& name) {

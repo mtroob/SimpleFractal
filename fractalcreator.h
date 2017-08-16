@@ -8,14 +8,17 @@
 #ifndef FRACTALCREATOR_H_
 #define FRACTALCREATOR_H_
 
-#include <string>
+//#include <string>
+#include <vector>
 #include <memory>
 
 #include "bitmap.h"
 #include "zoomlist.h"
 
 using std::unique_ptr;
-using std::string;
+//using std::string;
+
+using uint = unsigned int;
 
 namespace fractal {
 
@@ -24,18 +27,26 @@ public:
 	FractalCreator(int width, int height);
 	virtual ~FractalCreator();
 
-	void calculateIteration();
-	void drawFractal();
+	void calcuclateIterationsPerPixel();
+	void calcualtePixelsPerColorRange();
 	void addZoom(const Zoom& zoom);
+	void addRange(float range_end, const Color& color);
+	void drawFractal();
 	void writeBitmap(const string& name);
 
 private:
-	int _width;
-	int _height;
+
+	uint getRange(uint iterations) const;
+
+	uint _width;
+	uint _height;
 	Bitmap _bitmap;
 	ZoomList _zoom_list;
-	unique_ptr<int[]> _histogram;
-	unique_ptr<int[]> _fractal;
+	vector<uint> _histogram;
+	vector<uint> _fractal;
+	vector<uint> _ranges;
+	vector<Color> _colors;
+	vector<uint> _pixels_in_range;
 };
 
 } /* namespace fractal */

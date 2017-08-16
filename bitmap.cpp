@@ -26,6 +26,7 @@ bool Bitmap::write(const string& filename) const {
 
 	auto bitmap_size = _width*_height*sizeof(Color);
 
+	// fill necessary fields in bitmap headers
 	BitmapFileHeader file_header;
 	file_header.data_offset = sizeof(BitmapFileHeader) + sizeof(BitmapInfoHeader);
 	file_header.file_size = file_header.data_offset + bitmap_size;
@@ -43,6 +44,7 @@ bool Bitmap::write(const string& filename) const {
 		return false;
 	}
 
+	// write data to file
 	file.write(reinterpret_cast<char*>(&file_header), sizeof(file_header));
 	file.write(reinterpret_cast<char*>(&info_header), sizeof(info_header));
 	file.write(reinterpret_cast<char*>(_pixel_buffer.get()), bitmap_size);

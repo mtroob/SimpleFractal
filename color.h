@@ -27,6 +27,7 @@ const Color COLOR_WHITE {255, 255, 255};
 const Color COLOR_BLACK {0, 0, 0};
 
 Color operator+(const Color& lhs, const Color& rhs);
+
 Color operator-(const Color& lhs, const Color& rhs);
 
 template <class T>
