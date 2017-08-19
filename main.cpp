@@ -50,7 +50,7 @@ int main() {
 
 		drawFractal(fc, "bitmap_3.bmp");
 
-		fc.removeZoom();
+		while(fc.removeZoom());
 
 		drawFractal(fc, "bitmap_4.bmp");
 

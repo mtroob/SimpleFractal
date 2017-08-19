@@ -30,7 +30,7 @@ public:
 	void calcuclateIterationsPerPixel();
 	void calcualtePixelsPerColorRange();
 	void addZoom(const Zoom& zoom);
-	void removeZoom();
+	bool removeZoom();
 	void addRange(float range_end, const Color& color);
 	void drawFractal();
 	void writeBitmap(const string& name);

@@ -95,8 +95,8 @@ void FractalCreator::addZoom(const Zoom& zoom) {
 	_zoom_list.zoomIn(zoom);
 }
 
-void FractalCreator::removeZoom() {
-	_zoom_list.zoomOut();
+bool FractalCreator::removeZoom() {
+	return _zoom_list.zoomOut();
 }
 
 void FractalCreator::addRange(float range_end, const Color& color) {

@@ -35,7 +35,9 @@ public:
 	void zoomIn(const Zoom& zoom);
 
 	// Performs zoom out on a fractal (cancels the last applied zoom).
-	void zoomOut();
+	// Returns:	true if zooming out was successful
+	//			false if zooming out is impossible (_zoom_array is empty)
+	bool zoomOut();
 
 	// Converts bitmap pixel coordinates to fractal coordinates
 	// according to fractal scale and applied zoom.
