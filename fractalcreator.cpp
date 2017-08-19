@@ -23,6 +23,10 @@ FractalCreator::~FractalCreator() {
 }
 
 void FractalCreator::calcuclateIterationsPerPixel() {
+	// clear
+	for (auto& column : _histogram)
+		column = 0;
+
 	for (int y = 0; y < _height; ++y) {
 		for (int x = 0; x < _width; ++x) {
 			auto fractal_coords = _zoom_list.getScaledCoordinates({x, y});
@@ -38,6 +42,10 @@ void FractalCreator::calcuclateIterationsPerPixel() {
 }
 
 void FractalCreator::calcualtePixelsPerColorRange() {
+	// clear
+	for (auto& pixel_number : _pixels_in_range)
+		pixel_number = 0;
+
 	int range_number = 1;
 	for (uint i = 0; i < Mandelbrot::MAX_ITERATIONS; ++i) {
 		if (i >= _ranges[range_number])
@@ -85,6 +93,10 @@ void FractalCreator::drawFractal() {
 
 void FractalCreator::addZoom(const Zoom& zoom) {
 	_zoom_list.zoomIn(zoom);
+}
+
+void FractalCreator::removeZoom() {
+	_zoom_list.zoomOut();
 }
 
 void FractalCreator::addRange(float range_end, const Color& color) {

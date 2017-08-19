@@ -25,6 +25,15 @@ void ZoomList::zoomIn(const Zoom& zoom) {
 	_zoom_factor *= zoom._scale;
 }
 
+void ZoomList::zoomOut() {
+	auto zoom = _zoom_array.back();
+
+	_zoom_factor /= zoom._scale;
+	_center -= (zoom._focus - _bitmap_dimensions/2) * _fractal_dimensions/_bitmap_dimensions * _zoom_factor;
+
+	_zoom_array.pop_back();
+}
+
 ZoomList::FractalPoint ZoomList::getScaledCoordinates(const BitmapPoint& focus) {
 	//
 

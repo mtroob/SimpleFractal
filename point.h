@@ -50,7 +50,7 @@ struct Point {
 
 	template<class U>
 	Point& operator-=(const Point<U>& rhs) {
-		x -= rhs.y;
+		x -= rhs.x;
 		y -= rhs.y;
 		return *this;
 	}
