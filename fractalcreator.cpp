@@ -23,11 +23,11 @@ FractalCreator::~FractalCreator() {
 }
 
 void FractalCreator::calcuclateIterationsPerPixel() {
-	for (uint y = 0; y < _height; ++y) {
-		for (uint x = 0; x < _width; ++x) {
-			auto fractal_coords = _zoom_list.ZoomIn(x, y);
+	for (int y = 0; y < _height; ++y) {
+		for (int x = 0; x < _width; ++x) {
+			auto fractal_coords = _zoom_list.getScaledCoordinates({x, y});
 
-			uint iterations = Mandelbrot::iterate(fractal_coords.first, fractal_coords.second);
+			uint iterations = Mandelbrot::getIterationNumber(fractal_coords);
 
 			if (iterations != Mandelbrot::MAX_ITERATIONS)
 				++_histogram[iterations];
@@ -53,8 +53,8 @@ void FractalCreator::drawFractal() {
 	for(auto i = 0; i < Mandelbrot::MAX_ITERATIONS; ++i)
 		total += _histogram[i];
 
-	for (uint y = 0; y < _height; ++y) {
-		for (uint x = 0; x < _width; ++x) {
+	for (int y = 0; y < _height; ++y) {
+		for (int x = 0; x < _width; ++x) {
 			uint iterations = _fractal[y*_width + x];
 			Color cl = {0, 0, 0};
 
@@ -71,6 +71,12 @@ void FractalCreator::drawFractal() {
 				hue /= _pixels_in_range[range];
 
 				cl = start_color + color_diff*hue;
+
+//				for (uint i = 0; i <= iterations; ++i)
+//					hue += _histogram[i];
+//				hue /= total;
+//
+//				cl.blue = hue*255;
 			}
 			_bitmap.setPixel(x, y, cl);
 		}
@@ -78,7 +84,7 @@ void FractalCreator::drawFractal() {
 }
 
 void FractalCreator::addZoom(const Zoom& zoom) {
-	_zoom_list.add(zoom);
+	_zoom_list.zoomIn(zoom);
 }
 
 void FractalCreator::addRange(float range_end, const Color& color) {

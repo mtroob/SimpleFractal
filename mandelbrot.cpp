@@ -21,9 +21,9 @@ Mandelbrot::~Mandelbrot() {
 	// TODO Auto-generated destructor stub
 }
 
-int Mandelbrot::iterate(double x, double y) {
+int Mandelbrot::getIterationNumber(FractalPoint coords) {
 	complex<double> z = 0;
-	complex<double> c {x, y};
+	complex<double> c {coords.x, coords.y};
 
 	int iterations = 0;
 

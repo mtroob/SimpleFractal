@@ -9,22 +9,32 @@
 
 namespace fractal {
 
-ZoomList::ZoomList(int width, int height) : _width(width), _height(height),
-		_x_center(0), _y_center(0), _scale(1) {}
+ZoomList::ZoomList(int width, int height) : _bitmap_dimensions{width, height},
+		_center(-0.5, 0.0), _fractal_dimensions(3.0, 2.0), _zoom_factor(1) {}
 
-void ZoomList::add(const Zoom& zoom) {
+void ZoomList::zoomIn(const Zoom& zoom) {
+
 	_zoom_array.push_back(zoom);
 
-	_x_center += (zoom._x - _width/2)*_scale;
-	_y_center += (zoom._y - _height/2)*_scale;
+	// TODO: check values for validity (account for dimensions, Mandelbrot scale and zoom scale
+	//	_center.x += (zoom._focus_point.x - _dimensions.x/2) * 3.0/_dimensions.x * _zoom_factor;
+	//	_center.y += (zoom._focus_point.y - _dimensions.y/2) * 2.0/_dimensions.y * _zoom_factor;
 
-	_scale *= zoom._scale;
+	_center += (zoom._focus - _bitmap_dimensions/2) * _fractal_dimensions/_bitmap_dimensions * _zoom_factor;
+
+	_zoom_factor *= zoom._scale;
 }
 
-pair<double, double> ZoomList::ZoomIn(int x, int y) {
-	double x_fractal = (x - _width/2)*_scale + _x_center;
-	double y_fractal = (y - _height/2)*_scale + _y_center;
-	return pair<double, double>(x_fractal, y_fractal);
+ZoomList::FractalPoint ZoomList::getScaledCoordinates(const BitmapPoint& focus) {
+	//
+
+	//	FractalPoint fractal_coords (focus - _dimensions/2);
+	//	fractal_coords *= _fractal_scale/_dimensions;
+	//	fractal_coords *= _zoom_factor;
+	//	fractal_coords += _center;
+	//	return fractal_coords;
+
+	return (focus - _bitmap_dimensions/2) * _fractal_dimensions/_bitmap_dimensions * _zoom_factor + _center;
 }
 
 } /* namespace fractal */

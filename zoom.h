@@ -8,14 +8,18 @@
 #ifndef ZOOM_H_
 #define ZOOM_H_
 
+#include "point.h"
+
 namespace fractal {
 
 class Zoom {
 public:
-	Zoom(int x, int y, double scale) : _x(x), _y(y), _scale(scale) {}
+	using FocusPoint = Point<int>;
+
+	Zoom(const FocusPoint& fp, double scale) : _focus(fp), _scale(scale) {}
+
 public:
-	int _x;
-	int _y;
+	FocusPoint _focus;
 	double _scale;
 };
 
