@@ -24,6 +24,8 @@ public:
 
 public:
 	static const int MAX_ITERATIONS = 1000;
+	static const FractalPoint LEFT_BOTTOM;
+	static const FractalPoint RIGHT_TOP;
 };
 
 } /* namespace fractal */

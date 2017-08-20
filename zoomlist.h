@@ -20,16 +20,14 @@ namespace fractal {
 // Implements zooming in/out algorithm and converts bitmap pixel coordinates
 // into fractal coordinates
 class ZoomList {
-//	TODO:
-//		- make ZoomList dependent on Mandelbrot x y scale
-//		- implement zoomOut();
-
 public:
 
 	using FractalPoint = Point<double>;
 	using BitmapPoint = Point<int>;
 
-	ZoomList(int width, int height);
+	// Costructs ZoomList object using information on bitmap dimensions
+	// and fractal x/y scale
+	ZoomList(int width, int height, const FractalPoint& left_bottom, const FractalPoint& right_top);
 
 	// Performs zoom in on a fractal.
 	void zoomIn(const Zoom& zoom);
@@ -46,8 +44,8 @@ public:
 private:
 
 	BitmapPoint _bitmap_dimensions;
-	FractalPoint _center;
 	FractalPoint _fractal_dimensions;
+	FractalPoint _center;
 	double _zoom_factor;
 	vector<Zoom> _zoom_array;
 };

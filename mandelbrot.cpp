@@ -12,6 +12,9 @@ using std::complex;
 
 namespace fractal {
 
+const Mandelbrot::FractalPoint Mandelbrot::LEFT_BOTTOM (-2, -1);
+const Mandelbrot::FractalPoint Mandelbrot::RIGHT_TOP (1, 1);
+
 Mandelbrot::Mandelbrot() {
 	// TODO Auto-generated constructor stub
 

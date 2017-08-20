@@ -14,7 +14,8 @@ namespace fractal {
 
 FractalCreator::FractalCreator(int width, int height) :
 		_width(width), _height(height),
-		_bitmap(width, height), _zoom_list(width, height),
+		_bitmap(width, height),
+		_zoom_list(width, height, Mandelbrot::LEFT_BOTTOM, Mandelbrot::RIGHT_TOP),
 		_histogram(Mandelbrot::MAX_ITERATIONS, 0),
 		_fractal(width*height) {}
 
