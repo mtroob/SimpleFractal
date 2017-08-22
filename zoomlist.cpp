@@ -27,8 +27,10 @@ void ZoomList::zoomIn(const Zoom& zoom) {
 }
 
 bool ZoomList::zoomOut() {
-	if (_zoom_array.empty())
+	if (_zoom_array.empty()) {
+		_zoom_factor = 1;
 		return false;
+	}
 	auto zoom = _zoom_array.back();
 
 	_zoom_factor /= zoom._scale;

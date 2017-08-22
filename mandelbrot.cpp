@@ -8,12 +8,14 @@
 #include <complex>
 #include "mandelbrot.h"
 
+#include <cassert>
+
 using std::complex;
 
 namespace fractal {
 
-const Mandelbrot::FractalPoint Mandelbrot::LEFT_BOTTOM (-2, -1);
-const Mandelbrot::FractalPoint Mandelbrot::RIGHT_TOP (1, 1);
+const Mandelbrot::FractalPoint Mandelbrot::LEFT_BOTTOM (-2.0, -1.0);
+const Mandelbrot::FractalPoint Mandelbrot::RIGHT_TOP (1.0, 1.0);
 
 Mandelbrot::Mandelbrot() {
 	// TODO Auto-generated constructor stub
@@ -25,17 +27,14 @@ Mandelbrot::~Mandelbrot() {
 }
 
 int Mandelbrot::getIterationNumber(FractalPoint coords) {
-	complex<double> z = 0;
+	complex<double> z = {0.0, 0.0};
 	complex<double> c {coords.x, coords.y};
 
 	int iterations = 0;
 
-	while (iterations < MAX_ITERATIONS) {
+	while (iterations < MAX_ITERATIONS && std::abs(z) < 2.0) {
 		z = z*z + c;
 
-		if (abs(z) > 2) {
-			break;
-		}
 		++iterations;
 	}
 

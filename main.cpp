@@ -36,7 +36,7 @@ int main() {
 		fc.addRange(0.42, {255, 255, 237});
 		fc.addRange(0.6425, {0, 170, 255});
 		fc.addRange(0.8575, {0, 2, 0});
-		fc.addRange(1, {0, 0, 0});
+		//fc.addRange(1, {0, 0, 0});
 
 		drawFractal(fc, "bitmap_1.bmp");
 
@@ -47,6 +47,7 @@ int main() {
 		drawFractal(fc, "bitmap_2.bmp");
 
 		fc.addZoom(Zoom({3*WIDTH/4, HEIGHT/2}, 0.5));
+		fc.addZoom(Zoom({WIDTH/2, 2*HEIGHT/3}, 0.2));
 
 		drawFractal(fc, "bitmap_3.bmp");
 
@@ -69,10 +70,10 @@ void drawFractal(FractalCreator& fc, const string& file_name) {
 	elapsed = system_clock::now() - start_point;
 	cout << "calcuclateIterationsPerPixel: " << elapsed.count() << endl;
 
-	start_point = system_clock::now();
-	fc.calcualtePixelsPerColorRange();
-	elapsed = system_clock::now() - start_point;
-	cout << "calcualtePixelsPerColorRange: " << elapsed.count() << endl;
+//	start_point = system_clock::now();
+//	fc.calcualtePixelsPerColorRange();
+//	elapsed = system_clock::now() - start_point;
+//	cout << "calcualtePixelsPerColorRange: " << elapsed.count() << endl;
 
 	start_point = system_clock::now();
 	fc.drawFractal();

@@ -12,8 +12,11 @@
 #include <vector>
 #include <memory>
 
+#include <set>
+
 #include "bitmap.h"
 #include "zoomlist.h"
+#include "colorpalette.h"
 
 using std::unique_ptr;
 //using std::string;
@@ -31,7 +34,7 @@ public:
 	void calcualtePixelsPerColorRange();
 	void addZoom(const Zoom& zoom);
 	bool removeZoom();
-	void addRange(float range_end, const Color& color);
+	void addRange(double range_end, const Color& color);
 	void drawFractal();
 	void writeBitmap(const string& name);
 
@@ -48,6 +51,9 @@ private:
 	vector<uint> _ranges;
 	vector<Color> _colors;
 	vector<uint> _pixels_in_range;
+	ColorPalette _color_palette;
+
+	std::set<double> hue_set_tmp;
 };
 
 } /* namespace fractal */

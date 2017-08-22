@@ -32,7 +32,16 @@ Color operator-(const Color& lhs, const Color& rhs);
 
 template <class T>
 Color operator*(const Color& lhs, const T& rhs) {
-	return {lhs.blue * rhs, lhs.green * rhs, lhs.red * rhs};
+	auto blue = lhs.blue * rhs;
+//	if (blue > 255)
+//		blue = 255;
+	auto green = lhs.green * rhs;
+//	if (green > 255)
+//		green = 255;
+	auto red = lhs.red * rhs;
+//	if (red > 255)
+//		red = 255;
+	return {blue, green, red};
 }
 
 } /* namespace fractal */

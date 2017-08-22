@@ -10,11 +10,30 @@
 namespace fractal {
 
 Color operator+(const Color& lhs, const Color& rhs) {
-	return Color{lhs.blue + rhs.blue, lhs.green + rhs.green, lhs.red + rhs.red};
+	auto blue = lhs.blue + rhs.blue;
+//	if (blue > 255)
+//		blue = 255;
+	auto green = lhs.green + rhs.green;
+//	if (green > 255)
+//		green = 255;
+	auto red = lhs.red + rhs.red;
+//	if (red > 255)
+//		red = 255;
+
+	return Color{blue, green, red};
 }
 
 Color operator-(const Color& lhs, const Color& rhs) {
-	return Color{lhs.blue - rhs.blue, lhs.green - rhs.green, lhs.red - rhs.red};
+	auto blue = lhs.blue - rhs.blue;
+//	if (blue < 0)
+//		blue = 0;
+	auto green = lhs.green - rhs.green;
+//	if (green < 0)
+//		green = 0;
+	auto red = lhs.red - rhs.red;
+//	if (red < 0)
+//		red = 0;
+	return Color{blue, green, red};
 }
 
 } /* namespace fractal */
