@@ -21,6 +21,7 @@ public:
 
 	bool addColor(double key, const Color& color);
 	Color getColor(double key) const;
+	Color getColor(double iterations, uint max_iterations) const;
 
 private:
 	ColorMap _color_map;

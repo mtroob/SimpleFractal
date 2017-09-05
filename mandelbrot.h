@@ -20,7 +20,8 @@ public:
 	Mandelbrot();
 	virtual ~Mandelbrot();
 
-	static int getIterationNumber(FractalPoint coords);
+	static int getIterationCount(const FractalPoint& coords);
+	static double getNormalizedIterationCount(const FractalPoint& coords);
 
 public:
 	static const int MAX_ITERATIONS = 1000;

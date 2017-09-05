@@ -9,6 +9,7 @@
 #define POINT_H_
 
 #include <type_traits>
+#include <utility>
 
 using std::move;
 using std::common_type;

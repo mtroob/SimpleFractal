@@ -47,7 +47,7 @@ private:
 	Bitmap _bitmap;
 	ZoomList _zoom_list;
 	vector<uint> _histogram;
-	vector<uint> _fractal;
+	vector<double> _fractal;
 	vector<uint> _ranges;
 	vector<Color> _colors;
 	vector<uint> _pixels_in_range;

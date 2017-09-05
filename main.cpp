@@ -25,18 +25,19 @@ void drawFractal(FractalCreator& fc, const string& file_name);
 int main() {
 	cout << "Fractal generation started" << endl;
 	try {
-		const int WIDTH {800};
-		const int HEIGHT {600};
+		const int WIDTH {1600};
+		const int HEIGHT {1200};
 
 		FractalCreator fc(WIDTH, HEIGHT);
 
 		// TODO: need to change this in a way that will check values
 		fc.addRange(0.0, {100, 7, 0});
-		fc.addRange(0.16, {203, 107, 32});
+		fc.addRange(0.02, {120, 230, 62});
+		fc.addRange(0.10, {203, 107, 32});
 		fc.addRange(0.42, {255, 255, 237});
 		fc.addRange(0.6425, {0, 170, 255});
 		fc.addRange(0.8575, {0, 2, 0});
-		//fc.addRange(1, {0, 0, 0});
+		fc.addRange(1, {0, 0, 0});
 
 		drawFractal(fc, "bitmap_1.bmp");
 
@@ -48,7 +49,8 @@ int main() {
 
 		fc.addZoom(Zoom({3*WIDTH/4, HEIGHT/2}, 0.5));
 		fc.addZoom(Zoom({WIDTH/2, 2*HEIGHT/3}, 0.2));
-
+		fc.addZoom(Zoom({WIDTH/3, HEIGHT/2}, 0.1));
+		fc.addZoom(Zoom({WIDTH/2, 2*HEIGHT/3}, 0.2));
 		drawFractal(fc, "bitmap_3.bmp");
 
 		while(fc.removeZoom());
@@ -70,10 +72,10 @@ void drawFractal(FractalCreator& fc, const string& file_name) {
 	elapsed = system_clock::now() - start_point;
 	cout << "calcuclateIterationsPerPixel: " << elapsed.count() << endl;
 
-//	start_point = system_clock::now();
-//	fc.calcualtePixelsPerColorRange();
-//	elapsed = system_clock::now() - start_point;
-//	cout << "calcualtePixelsPerColorRange: " << elapsed.count() << endl;
+	start_point = system_clock::now();
+	fc.calcualtePixelsPerColorRange();
+	elapsed = system_clock::now() - start_point;
+	cout << "calcualtePixelsPerColorRange: " << elapsed.count() << endl;
 
 	start_point = system_clock::now();
 	fc.drawFractal();
