@@ -20,13 +20,13 @@ public:
 	Mandelbrot();
 	virtual ~Mandelbrot();
 
-	static int getIterationCount(const FractalPoint& coords);
-	static double getNormalizedIterationCount(const FractalPoint& coords);
+	int getIterationCount(const FractalPoint& coords);
+	double getNormalizedIterationCount(const FractalPoint& coords);
 
 public:
-	static const int MAX_ITERATIONS = 1000;
-	static const FractalPoint LEFT_BOTTOM;
-	static const FractalPoint RIGHT_TOP;
+	const int MAX_ITERATIONS = 1000;
+	const FractalPoint LEFT_BOTTOM {-2.0, -1.0};
+	const FractalPoint RIGHT_TOP {1.0, 1.0};
 };
 
 } /* namespace fractal */

@@ -17,6 +17,7 @@
 #include "bitmap.h"
 #include "zoomlist.h"
 #include "colorpalette.h"
+#include "mandelbrot.h"
 
 using std::unique_ptr;
 //using std::string;
@@ -31,7 +32,8 @@ public:
 	virtual ~FractalCreator();
 
 	void calcuclateIterationsPerPixel();
-	void calcualtePixelsPerColorRange();
+	void generateIterationHistogram();
+	//void calcualtePixelsPerColorRange();
 	void addZoom(const Zoom& zoom);
 	bool removeZoom();
 	void addRange(double range_end, const Color& color);
@@ -45,9 +47,10 @@ private:
 	uint _width;
 	uint _height;
 	Bitmap _bitmap;
+	Mandelbrot _fractal;
 	ZoomList _zoom_list;
 	vector<uint> _histogram;
-	vector<double> _fractal;
+	vector<double> _iterations;
 	vector<uint> _ranges;
 	vector<Color> _colors;
 	vector<uint> _pixels_in_range;

@@ -69,13 +69,14 @@ void drawFractal(FractalCreator& fc, const string& file_name) {
 
 	start_point = system_clock::now();
 	fc.calcuclateIterationsPerPixel();
+	fc.generateIterationHistogram();
 	elapsed = system_clock::now() - start_point;
 	cout << "calcuclateIterationsPerPixel: " << elapsed.count() << endl;
 
-	start_point = system_clock::now();
-	fc.calcualtePixelsPerColorRange();
-	elapsed = system_clock::now() - start_point;
-	cout << "calcualtePixelsPerColorRange: " << elapsed.count() << endl;
+//	start_point = system_clock::now();
+//	fc.calcualtePixelsPerColorRange();
+//	elapsed = system_clock::now() - start_point;
+//	cout << "calcualtePixelsPerColorRange: " << elapsed.count() << endl;
 
 	start_point = system_clock::now();
 	fc.drawFractal();

@@ -15,8 +15,8 @@
 
 namespace fractal {
 
-const Mandelbrot::FractalPoint Mandelbrot::LEFT_BOTTOM (-2.0, -1.0);
-const Mandelbrot::FractalPoint Mandelbrot::RIGHT_TOP (1.0, 1.0);
+//const Mandelbrot::FractalPoint Mandelbrot::LEFT_BOTTOM (-2.0, -1.0);
+//const Mandelbrot::FractalPoint Mandelbrot::RIGHT_TOP (1.0, 1.0);
 
 Mandelbrot::Mandelbrot() {
 	// TODO Auto-generated constructor stub

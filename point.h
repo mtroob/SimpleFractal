@@ -16,6 +16,12 @@ using std::common_type;
 
 namespace fractal {
 
+// Represents a point in 2d space
+// Provides necessary mathematical operations, that can be used for several
+// points with different template class types (if they are standard numeric types)
+// The non-member mathematical functions, that return a Point class object,
+// always return a point with a common template class type (a type that both
+// coordinate types will be promoted to by the compiler)
 template <class T>
 struct Point {
 
