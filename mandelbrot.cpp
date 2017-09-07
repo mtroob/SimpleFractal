@@ -18,14 +18,8 @@ namespace fractal {
 //const Mandelbrot::FractalPoint Mandelbrot::LEFT_BOTTOM (-2.0, -1.0);
 //const Mandelbrot::FractalPoint Mandelbrot::RIGHT_TOP (1.0, 1.0);
 
-Mandelbrot::Mandelbrot() {
-	// TODO Auto-generated constructor stub
-
-}
-
-Mandelbrot::~Mandelbrot() {
-	// TODO Auto-generated destructor stub
-}
+Mandelbrot::Mandelbrot(int max_iterations) :
+		_max_iterations(max_iterations) {}
 
 //int Mandelbrot::getIterationNumber(FractalPoint coords) {
 //	complex<double> z = {0.0, 0.0};
@@ -48,7 +42,7 @@ int Mandelbrot::getIterationCount(const FractalPoint& coords) {
 
 	int iterations = 0;
 
-	while (iterations < MAX_ITERATIONS && x*x + y*y < 2*2) {
+	while (iterations < _max_iterations && x*x + y*y < 2*2) {
 		auto x_temp = x*x - y*y + coords.x;
 		y = 2*x*y + coords.y;
 		x = x_temp;
@@ -65,7 +59,7 @@ double Mandelbrot::getNormalizedIterationCount(const FractalPoint& coords) {
 
 	double iterations = 0.0;
 
-	while (iterations < MAX_ITERATIONS && x*x + y*y < 2*2) {
+	while (iterations < _max_iterations && x*x + y*y < 2*2) {
 		auto x_temp = x*x - y*y + coords.x;
 		y = 2*x*y + coords.y;
 		x = x_temp;

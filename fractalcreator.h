@@ -16,7 +16,9 @@
 
 #include "bitmap.h"
 #include "zoomlist.h"
-#include "colorpalette.h"
+
+#include "coloringalgorithm.h"
+
 #include "mandelbrot.h"
 
 using std::unique_ptr;
@@ -28,15 +30,16 @@ namespace fractal {
 
 class FractalCreator {
 public:
-	FractalCreator(int width, int height);
+	FractalCreator(int width, int height, std::shared_ptr<ColoringAlgorithm> coloring_algorithm);
 	virtual ~FractalCreator();
 
 	void calcuclateIterationsPerPixel();
 	void generateIterationHistogram();
-	//void calcualtePixelsPerColorRange();
 	void addZoom(const Zoom& zoom);
 	bool removeZoom();
-	void addRange(double range_end, const Color& color);
+
+	void setColoringAlgorithm(std::shared_ptr<ColoringAlgorithm> coloring_algorithm);
+
 	void drawFractal();
 	void writeBitmap(const string& name);
 
@@ -52,11 +55,7 @@ private:
 	vector<uint> _histogram;
 	vector<double> _iterations;
 	vector<uint> _ranges;
-	vector<Color> _colors;
-	vector<uint> _pixels_in_range;
-	ColorPalette _color_palette;
-
-	std::set<double> hue_set_tmp;
+	std::shared_ptr<ColoringAlgorithm> _coloring_algorithm;
 };
 
 } /* namespace fractal */

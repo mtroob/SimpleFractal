@@ -17,16 +17,19 @@ public:
 
 	using FractalPoint = Point<double>;
 
-	Mandelbrot();
-	virtual ~Mandelbrot();
+	Mandelbrot(int max_iterations);
 
 	int getIterationCount(const FractalPoint& coords);
 	double getNormalizedIterationCount(const FractalPoint& coords);
 
-public:
-	const int MAX_ITERATIONS = 1000;
+	int getMaxIterations() const {
+		return _max_iterations;
+	}
 	const FractalPoint LEFT_BOTTOM {-2.0, -1.0};
 	const FractalPoint RIGHT_TOP {1.0, 1.0};
+
+private:
+	int _max_iterations;
 };
 
 } /* namespace fractal */

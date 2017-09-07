@@ -12,6 +12,8 @@
 #include <exception>
 
 #include "fractalcreator.h"
+#include "linearinterpolatedcoloring.h"
+#include "simplecoloring.h"
 
 using std::cout;
 using std::endl;
@@ -25,19 +27,22 @@ void drawFractal(FractalCreator& fc, const string& file_name);
 int main() {
 	cout << "Fractal generation started" << endl;
 	try {
-		const int WIDTH {1600};
+		const int WIDTH {1800};
 		const int HEIGHT {1200};
 
-		FractalCreator fc(WIDTH, HEIGHT);
+		std::shared_ptr<SimpleColoring> simple_coloring {new SimpleColoring()};
 
-		// TODO: need to change this in a way that will check values
-		fc.addRange(0.0, {100, 7, 0});
-		fc.addRange(0.02, {120, 230, 62});
-		fc.addRange(0.10, {203, 107, 32});
-		fc.addRange(0.42, {255, 255, 237});
-		fc.addRange(0.6425, {0, 170, 255});
-		fc.addRange(0.8575, {0, 2, 0});
-		fc.addRange(1, {0, 0, 0});
+		std::shared_ptr<LinearInterpolatedColoring> linear_coloring {new LinearInterpolatedColoring()};
+
+		linear_coloring->addColor(0.0, {100, 7, 0});
+		linear_coloring->addColor(0.02, {120, 230, 62});
+		linear_coloring->addColor(0.10, {203, 107, 32});
+		linear_coloring->addColor(0.42, {255, 255, 237});
+		linear_coloring->addColor(0.6425, {0, 170, 255});
+		linear_coloring->addColor(0.8575, {0, 2, 0});
+		linear_coloring->addColor(1, {0, 0, 0});
+
+		FractalCreator fc(WIDTH, HEIGHT, linear_coloring);
 
 		drawFractal(fc, "bitmap_1.bmp");
 
@@ -54,6 +59,7 @@ int main() {
 		drawFractal(fc, "bitmap_3.bmp");
 
 		while(fc.removeZoom());
+		fc.setColoringAlgorithm(simple_coloring);
 
 		drawFractal(fc, "bitmap_4.bmp");
 
