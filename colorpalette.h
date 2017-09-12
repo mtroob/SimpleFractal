@@ -12,6 +12,8 @@
 
 #include "color.h"
 
+using uint = unsigned int;
+
 namespace fractal {
 
 class ColorPalette {

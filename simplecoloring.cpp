@@ -7,13 +7,19 @@
 
 #include "simplecoloring.h"
 
+using std::uint8_t;
+
 namespace fractal {
 
 Color SimpleColoring::getColor(double key) const {
 	key /= _max_iterations;
 	if (key == 1.0)
 		return {0, 0, 0};
-	return {255*key, 255*key, 255*key};
+    return {
+        static_cast<uint8_t>(255*key),
+        static_cast<uint8_t>(255*key),
+        static_cast<uint8_t>(255*key)
+    };
 }
 
 } /* namespace fractal */
