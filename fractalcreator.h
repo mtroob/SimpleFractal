@@ -15,14 +15,10 @@
 #include <set>
 
 #include "bitmap.h"
-#include "zoomlist.h"
-
 #include "coloringalgorithm.h"
+#include "coordinatetransformer.h"
 
-#include "mandelbrot.h"
-
-using std::unique_ptr;
-//using std::string;
+#include "fractal.h"
 
 using uint = unsigned int;
 
@@ -30,32 +26,27 @@ namespace fractal {
 
 class FractalCreator {
 public:
-	FractalCreator(int width, int height, std::shared_ptr<ColoringAlgorithm> coloring_algorithm);
+	FractalCreator(int width, int height, std::shared_ptr<Fractal> fractal);
 	virtual ~FractalCreator();
 
 	void calcuclateIterationsPerPixel();
-	void generateIterationHistogram();
 	void addZoom(const Zoom& zoom);
 	bool removeZoom();
+	void rotate(double angle);
 
-	void setColoringAlgorithm(std::shared_ptr<ColoringAlgorithm> coloring_algorithm);
-
-	void drawFractal();
+	void drawFractal(std::shared_ptr<ColoringAlgorithm> coloring_algorithm);
 	void writeBitmap(const string& name);
 
-private:
+	inline double getIterationCount(const BitmapPoint& point) const;
 
-	uint getRange(uint iterations) const;
+private:
 
 	uint _width;
 	uint _height;
 	Bitmap _bitmap;
-	Mandelbrot _fractal;
-	ZoomList _zoom_list;
-	vector<uint> _histogram;
-	vector<double> _iterations;
-	vector<uint> _ranges;
-	std::shared_ptr<ColoringAlgorithm> _coloring_algorithm;
+	std::shared_ptr<Fractal> _fractal;
+	CoordinateTransformer _zoom_list;
+	std::vector<double> _fractal_values;
 };
 
 } /* namespace fractal */

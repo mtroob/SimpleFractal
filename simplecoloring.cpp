@@ -9,9 +9,8 @@
 
 namespace fractal {
 
-void SimpleColoring::setup() {}
-
 Color SimpleColoring::getColor(double key) const {
+	key /= _max_iterations;
 	if (key == 1.0)
 		return {0, 0, 0};
 	return {255*key, 255*key, 255*key};

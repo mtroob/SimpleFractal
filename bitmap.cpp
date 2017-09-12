@@ -20,7 +20,7 @@ namespace fractal {
 
 Bitmap::Bitmap(uint32_t width, uint32_t height) :
 		_width(width), _height(height),
-		_pixel_buffer(new Color[width*height]{}) {}
+		_pixel_buffer(width*height) {}
 
 bool Bitmap::write(const string& filename) const {
 
@@ -45,9 +45,9 @@ bool Bitmap::write(const string& filename) const {
 	}
 
 	// write data to file
-	file.write(reinterpret_cast<char*>(&file_header), sizeof(file_header));
-	file.write(reinterpret_cast<char*>(&info_header), sizeof(info_header));
-	file.write(reinterpret_cast<char*>(_pixel_buffer.get()), bitmap_size);
+	file.write(reinterpret_cast<const char*>(&file_header), sizeof(file_header));
+	file.write(reinterpret_cast<const char*>(&info_header), sizeof(info_header));
+	file.write(reinterpret_cast<const char*>(_pixel_buffer.data()), bitmap_size);
 
 	file.close();
 	return true;

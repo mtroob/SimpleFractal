@@ -14,107 +14,55 @@
 
 namespace fractal {
 
-FractalCreator::FractalCreator(int width, int height, std::shared_ptr<ColoringAlgorithm> coloring_algorithm) :
+FractalCreator::FractalCreator(int width, int height, std::shared_ptr<Fractal> fractal) :
 		_width(width), _height(height),
 		_bitmap(width, height),
-		_fractal(1000),
-		_zoom_list(width, height, _fractal.LEFT_BOTTOM, _fractal.RIGHT_TOP),
-		_histogram(_fractal.getMaxIterations(), 0),
-		_iterations(width*height),
-		_coloring_algorithm(coloring_algorithm) {}
+		_fractal(fractal),
+		_zoom_list(width, height, _fractal->LEFT_BOTTOM, _fractal->RIGHT_TOP),
+		_fractal_values(width*height) {}
 
-FractalCreator::~FractalCreator() {
-
-}
+FractalCreator::~FractalCreator() {}
 
 void FractalCreator::calcuclateIterationsPerPixel() {
 	for (auto y = 0; y < _height; ++y) {
 		for (auto x = 0; x < _width; ++x) {
-			auto fractal_coords = _zoom_list.getScaledCoordinates({x, y});
-
-			auto iterations = _fractal.getNormalizedIterationCount(fractal_coords);
-
-			_iterations[y*_width + x] = iterations;
+			auto fractal_coords = _zoom_list.apply({x, y});
+			_fractal_values[y*_width + x] = _fractal->getFractalValue(fractal_coords);
 		}
 	}
 }
 
-// TODO: should be moved to appropriate coloring algorithm
-void FractalCreator::generateIterationHistogram() {
-	// clear previous histogram
-	for (auto& column : _histogram)
-		column = 0;
+
+
+void FractalCreator::drawFractal(std::shared_ptr<ColoringAlgorithm> coloring_algorithm) {
+	coloring_algorithm->setup();
 
 	for (auto y = 0; y < _height; ++y) {
 		for (auto x = 0; x < _width; ++x) {
-			auto iterations = _iterations[y*_width + x];
-			if (iterations < _fractal.getMaxIterations())
-				++_histogram[iterations];
-		}
-	}
-	std::cout << "Histogram: ";
-	std::cout << std::count_if(_histogram.begin(), _histogram.end(), [](uint x){ return x > 0; });
-	std::cout << std::endl;
-}
-
-void FractalCreator::drawFractal() {
-
-	_coloring_algorithm->setup();
-
-//	uint total = 0;
-//	for(auto i = 0; i < _fractal.getMaxIterations(); ++i)
-//		total += _histogram[i];
-
-	for (auto y = 0; y < _height; ++y) {
-		for (auto x = 0; x < _width; ++x) {
-			auto iterations = _iterations[y*_width + x];
-
-			_bitmap.setPixel(x, y, _coloring_algorithm->getColor(iterations/_fractal.getMaxIterations()));
-
-//			Color cl = {0, 0, 0};
-//
-//
-//
-//			if (iterations < _fractal.getMaxIterations()) {
-//				double hue = 0.0;
-////				auto range = getRange(iterations);
-////
-////				for (auto i = _ranges[range]; i <= iterations; ++i)
-////					hue += _histogram[i];
-////				hue /= _pixels_in_range[range];
-////
-////				cl = _colors[range] + color_diff*hue;
-//
-//				for (auto i = 0; i < iterations; ++i)
-//					hue += _histogram[i];
-//				hue /= total;
-////
-////				//hue = static_cast<double>(iterations)/Mandelbrot::MAX_ITERATIONS;
-//
-////				cl = _color_palette.getColor(hue);
-//				cl = _color_palette.getColor(iterations/_fractal.getMaxIterations());
-////				cl.blue = pow(255, hue);
-//
-//			}
-//			_bitmap.setPixel(x, y, cl);
+			auto iterations = _fractal_values[y*_width + x];
+			_bitmap.setPixel(x, y, coloring_algorithm->getColor(iterations));
 		}
 	}
 }
 
 void FractalCreator::addZoom(const Zoom& zoom) {
-	_zoom_list.zoomIn(zoom);
+	_zoom_list.addZoom(zoom);
 }
 
 bool FractalCreator::removeZoom() {
-	return _zoom_list.zoomOut();
+	return _zoom_list.removeZoom();
 }
 
-void FractalCreator::setColoringAlgorithm(std::shared_ptr<ColoringAlgorithm> coloring_algorithm) {
-	_coloring_algorithm = coloring_algorithm;
+void FractalCreator::rotate(double angle) {
+	_zoom_list.setRotationAngle(angle);
 }
 
 void FractalCreator::writeBitmap(const string& name) {
 	_bitmap.write(name);
+}
+
+double FractalCreator::getIterationCount(const BitmapPoint& point) const {
+	return _fractal_values[point.y*_width + point.x];
 }
 
 } /* namespace fractal */

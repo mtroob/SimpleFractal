@@ -9,6 +9,7 @@
 #define BITMAP_H_
 
 #include <memory>
+#include <vector>
 #include <cstdint>
 #include <string>
 
@@ -33,7 +34,7 @@ public:
 private:
 	uint32_t _width;
 	uint32_t _height;
-	unique_ptr<Color[]> _pixel_buffer;
+	std::vector<Color> _pixel_buffer;
 };
 
 } /* namespace fractal */
