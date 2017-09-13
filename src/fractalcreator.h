@@ -14,11 +14,11 @@
 
 #include <set>
 
-#include "bitmap.h"
-#include "coloringalgorithm.h"
-#include "coordinatetransformer.h"
+#include "bitmap/bitmap.h"
+#include "color/coloringalgorithm.h"
+#include "transformation/coordinatetransformer.h"
 
-#include "fractal.h"
+#include "fractal/fractal.h"
 
 using uint = unsigned int;
 

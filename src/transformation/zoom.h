@@ -8,7 +8,7 @@
 #ifndef ZOOM_H_
 #define ZOOM_H_
 
-#include "point.h"
+#include "util/point.h"
 
 namespace fractal {
 

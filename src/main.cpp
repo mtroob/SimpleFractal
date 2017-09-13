@@ -14,9 +14,9 @@
 #include <algorithm>
 
 #include "fractalcreator.h"
-#include "linearinterpolatedcoloring.h"
-#include "simplecoloring.h"
-#include "mandelbrot.h"
+#include "color/linearinterpolatedcoloring.h"
+#include "color/simplecoloring.h"
+#include "fractal/mandelbrot.h"
 
 using std::cout;
 using std::endl;

@@ -10,8 +10,8 @@
 
 #include <vector>
 
-#include "point.h"
-#include "zoom.h"
+#include "util/point.h"
+#include "transformation/zoom.h"
 
 namespace fractal {
 

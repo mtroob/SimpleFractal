@@ -13,7 +13,7 @@
 #include <cstdint>
 #include <string>
 
-#include "color.h"
+#include "color/color.h"
 
 using std::string;
 using std::uint32_t;

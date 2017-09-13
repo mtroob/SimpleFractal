@@ -8,8 +8,8 @@
 #ifndef MANDELBROT_H_
 #define MANDELBROT_H_
 
-#include "point.h"
-#include "fractal.h"
+#include "util/point.h"
+#include "fractal/fractal.h"
 
 namespace fractal {
 

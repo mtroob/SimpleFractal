@@ -8,7 +8,7 @@
 #ifndef FRACTAL_H_
 #define FRACTAL_H_
 
-#include "point.h"
+#include "util/point.h"
 
 namespace fractal {
 

@@ -10,7 +10,7 @@
 #include <iostream>
 
 #include "fractalcreator.h"
-#include "mandelbrot.h"
+#include "fractal/mandelbrot.h"
 
 namespace fractal {
 
