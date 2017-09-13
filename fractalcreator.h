@@ -45,7 +45,7 @@ private:
 	uint _height;
 	Bitmap _bitmap;
 	std::shared_ptr<Fractal> _fractal;
-	CoordinateTransformer _zoom_list;
+	CoordinateTransformer _coordinate_transformer;
 	std::vector<double> _fractal_values;
 };
 

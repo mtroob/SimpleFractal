@@ -12,6 +12,8 @@
 
 namespace fractal {
 
+// Abstract interface for coloring algorithm implementations
+// Transformes key value to an RGB color
 class ColoringAlgorithm {
 public:
 	ColoringAlgorithm();

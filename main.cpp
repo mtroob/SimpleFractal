@@ -49,12 +49,14 @@ int main() {
 		linear_coloring->addColor(0.08, {203, 107, 50});
 		linear_coloring->addColor(0.32, {255, 255, 237});
 		linear_coloring->addColor(0.6425, {0, 170, 255});
-		linear_coloring->addColor(0.8575, {0, 2, 0});
+		linear_coloring->addColor(0.8575, {0, 2, 200});
 		linear_coloring->addColor(1, {0, 0, 0});
 
 //		drawFractalCircle(fc, linear_coloring, "rotation.bmp");
 
 		drawFractal(fc, linear_coloring, "bitmap_1.bmp");
+
+//		fc.addZoom(Zoom({759, 1200-490}, 0.001));
 
 		fc.addZoom(Zoom({WIDTH/4, HEIGHT/2}, 0.5));
 		fc.addZoom(Zoom({WIDTH/2, 3*HEIGHT/4}, 0.5));
