@@ -12,9 +12,8 @@
 #include <vector>
 #include <memory>
 
-#include <set>
-
-#include "bitmap/bitmap.h"
+#include "util/pixelarray.h"
+#include "output/fileformat.h"
 #include "color/coloringalgorithm.h"
 #include "transformation/coordinatetransformer.h"
 
@@ -35,16 +34,13 @@ public:
 	void rotate(double angle);
 
 	void drawFractal(std::shared_ptr<ColoringAlgorithm> coloring_algorithm);
-	void writeBitmap(const string& name);
-
+    bool save(FileFormat* file_format, const std::string& file_name) const;
 	inline double getIterationCount(const BitmapPoint& point) const;
 
 private:
 
-	uint _width;
-	uint _height;
-	Bitmap _bitmap;
 	std::shared_ptr<Fractal> _fractal;
+    PixelArray _pixel_array;
 	CoordinateTransformer _coordinate_transformer;
 	std::vector<double> _fractal_values;
 };

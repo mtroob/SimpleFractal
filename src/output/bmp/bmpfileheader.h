@@ -5,8 +5,8 @@
  *      Author: michael
  */
 
-#ifndef BITMAP_FILE_HEADER_H_
-#define BITMAP_FILE_HEADER_H_
+#ifndef BMPFILEHEADER_H_
+#define BMPFILEHEADER_H_
 
 #include <cstdint>
 
@@ -17,7 +17,7 @@ using std::uint8_t;
 
 namespace fractal {
 
-struct BitmapFileHeader {
+struct BMPFileHeader {
 	uint8_t header[2]{'B', 'M'};
 	uint32_t file_size;
 	uint32_t reserved{0};
@@ -28,4 +28,4 @@ struct BitmapFileHeader {
 
 #pragma pack(pop)
 
-#endif /* BITMAP_FILE_HEADER_H_ */
+#endif /* BMPFILEHEADER_H_ */

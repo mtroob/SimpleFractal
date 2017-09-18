@@ -5,8 +5,8 @@
  *      Author: michael
  */
 
-#ifndef BITMAP_INFO_HEADER_H_
-#define BITMAP_INFO_HEADER_H_
+#ifndef BMPINFOHEADER_H_
+#define BMPINFOHEADER_H_
 
 #include <cstdint>
 
@@ -17,7 +17,7 @@ using std::uint16_t;
 
 namespace fractal {
 
-struct BitmapInfoHeader {
+struct BMPInfoHeader {
 	uint32_t header_size{40};
 	uint32_t width;
 	uint32_t height;
@@ -35,4 +35,4 @@ struct BitmapInfoHeader {
 
 #pragma pack(pop)
 
-#endif /* BITMAP_INFO_HEADER_H_ */
+#endif /* BMPINFOHEADER_H_ */

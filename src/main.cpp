@@ -17,6 +17,7 @@
 #include "color/linearinterpolatedcoloring.h"
 #include "color/simplecoloring.h"
 #include "fractal/mandelbrot.h"
+#include "output/bmp/bmpfile.h"
 
 using std::cout;
 using std::endl;
@@ -36,7 +37,7 @@ int main() {
 
 		const int MAX_ITERATIONS {1000};
 
-		std::shared_ptr<Fractal> fractal{static_cast<Fractal*>(new Mandelbrot (MAX_ITERATIONS, 2))};
+		std::shared_ptr<Fractal> fractal{new Mandelbrot (MAX_ITERATIONS, 2)};
 
 		FractalCreator fc(WIDTH, HEIGHT, fractal);
 
@@ -98,7 +99,8 @@ void drawFractal(FractalCreator& fc, std::shared_ptr<ColoringAlgorithm> coloring
 	cout << "drawFractal: " << elapsed.count() << endl;
 
 	start_point = system_clock::now();
-	fc.writeBitmap(file_name);
+	BMPFile file;
+   fc.save(&file, file_name);
 	elapsed = system_clock::now() - start_point;
 	cout << "writeBitmap: " << elapsed.count() << endl;
 }
