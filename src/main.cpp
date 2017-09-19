@@ -88,7 +88,7 @@ void drawFractal(FractalCreator& fc, std::shared_ptr<ColoringAlgorithm> coloring
 	duration<double> elapsed;
 
 	start_point = system_clock::now();
-	fc.calcuclateIterationsPerPixel();
+    fc.calculateValues();
 	//fc.generateIterationHistogram();
 	elapsed = system_clock::now() - start_point;
 	cout << "calcuclateIterationsPerPixel: " << elapsed.count() << endl;
@@ -116,7 +116,7 @@ void drawFractalCircle(FractalCreator& fc, std::shared_ptr<ColoringAlgorithm> co
 	for (auto i = 0; i < step_number; ++i) {
 		auto angle = angle_step*i;
 		fc.rotate(angle);
-		fc.calcuclateIterationsPerPixel();
+        fc.calculateValues();
 		fc.drawFractal(coloring_algorithm);
 
 		fc.writeBitmap(file_name_base + "_" + std::to_string(static_cast<int>(angle)) + file_extension);

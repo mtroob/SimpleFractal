@@ -9,8 +9,9 @@
 namespace fractal {
 
 struct PixelArray {
-    PixelArray(std::uint32_t width, std::uint32_t height) :
+    PixelArray(std::uint32_t width = 0, std::uint32_t height = 0) :
         width(width), height(height), data(width*height) {}
+
     std::uint32_t width;
     std::uint32_t height;
     std::vector<Color> data;

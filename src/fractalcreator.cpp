@@ -22,7 +22,7 @@ FractalCreator::FractalCreator(int width, int height, std::shared_ptr<Fractal> f
 
 FractalCreator::~FractalCreator() {}
 
-void FractalCreator::calcuclateIterationsPerPixel() {
+void FractalCreator::calculateValues() {
     for (auto y = 0; y < _pixel_array.height; ++y) {
         for (auto x = 0; x < _pixel_array.width; ++x) {
 			auto fractal_coords = _coordinate_transformer.apply({x, y});
@@ -38,7 +38,6 @@ void FractalCreator::drawFractal(std::shared_ptr<ColoringAlgorithm> coloring_alg
         for (auto x = 0; x < _pixel_array.width; ++x) {
             auto iterations = _fractal_values[y*_pixel_array.width + x];
             _pixel_array.data[y*_pixel_array.width + x] = coloring_algorithm->getColor(iterations);
-//			_bitmap.setPixel(x, y, coloring_algorithm->getColor(iterations));
 		}
 	}
 }
@@ -51,6 +50,10 @@ bool FractalCreator::removeZoom() {
 	return _coordinate_transformer.removeZoom();
 }
 
+const PixelArray& FractalCreator::getPixelArray() const {
+    return _pixel_array;
+}
+
 void FractalCreator::rotate(double angle) {
 	_coordinate_transformer.setRotationAngle(angle);
 }
@@ -58,10 +61,6 @@ void FractalCreator::rotate(double angle) {
 bool FractalCreator::save(FileFormat* file_format, const std::string& file_name) const {
     return file_format->convertAndWrite(_pixel_array, file_name);
 }
-
-//void FractalCreator::writeBitmap(const string& name) {
-//	_bitmap.write(name);
-//}
 
 double FractalCreator::getIterationCount(const BitmapPoint& point) const {
     return _fractal_values[point.y*_pixel_array.width + point.x];

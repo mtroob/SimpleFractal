@@ -18,12 +18,12 @@ using std::uint16_t;
 namespace fractal {
 
 struct BMPInfoHeader {
-	uint32_t header_size{40};
+    uint32_t header_size{40};
 	uint32_t width;
 	uint32_t height;
 	uint16_t planes{1};
 	uint16_t bits_per_pixel{24};
-	uint32_t compression{0};
+    uint32_t compression{0};
 	uint32_t data_size{0};
 	uint32_t horizontal_resolution{2400};
 	uint32_t vertical_resolution{2400};

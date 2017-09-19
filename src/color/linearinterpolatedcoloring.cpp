@@ -36,7 +36,7 @@ Color LinearInterpolatedColoring::getColor(double key) const {
 	auto red = static_cast<uint8_t>(previous.second.red + (next.second.red - previous.second.red) * scale_factor);
 	auto green = static_cast<uint8_t>(previous.second.green + (next.second.green - previous.second.green) * scale_factor);
 
-	return {blue, green, red};
+    return {red, green, blue};
 }
 
 } /* namespace fractal */

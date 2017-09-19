@@ -28,7 +28,7 @@ public:
 	FractalCreator(int width, int height, std::shared_ptr<Fractal> fractal);
 	virtual ~FractalCreator();
 
-	void calcuclateIterationsPerPixel();
+    void calculateValues();
 	void addZoom(const Zoom& zoom);
 	bool removeZoom();
 	void rotate(double angle);
@@ -36,6 +36,8 @@ public:
 	void drawFractal(std::shared_ptr<ColoringAlgorithm> coloring_algorithm);
     bool save(FileFormat* file_format, const std::string& file_name) const;
 	inline double getIterationCount(const BitmapPoint& point) const;
+
+    const PixelArray& getPixelArray() const;
 
 private:
 
