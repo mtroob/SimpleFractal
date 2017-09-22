@@ -16,8 +16,8 @@
 namespace fractal {
 
 Mandelbrot::Mandelbrot(int max_iterations, int escape_radius) :
-		Fractal(FractalPoint(-2.0, -1.0), FractalPoint(1.0, 1.0)),
-		_max_iterations(max_iterations), _escape_radius(escape_radius) {}
+        Fractal(FractalPoint(-2.0, -1.0), FractalPoint(1.0, 1.0)),
+        _max_iterations(max_iterations), _escape_radius(escape_radius) {}
 
 double Mandelbrot::getFractalValue(const FractalPoint& coords) const {
 	auto x = 0.0;
@@ -40,6 +40,10 @@ double Mandelbrot::getFractalValue(const FractalPoint& coords) const {
 		}
 
 		return iterations;
+}
+
+int Mandelbrot::getMaxIterations() const {
+    return _max_iterations;
 }
 
 } /* namespace fractal */

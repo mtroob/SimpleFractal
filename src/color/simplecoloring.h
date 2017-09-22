@@ -14,16 +14,12 @@ namespace fractal {
 
 class SimpleColoring: public ColoringAlgorithm {
 public:
-	SimpleColoring(int max_iterations = 1) : _max_iterations(max_iterations) {}
-
-	void setup(int max_iterations) {
-		_max_iterations = max_iterations;
-	}
+    void setup(const FractalCreator* fractal_creator) override;
 
 	Color getColor(double key) const;
 
 private:
-	int _max_iterations;
+    int _key_scale_factor;
 };
 
 } /* namespace fractal */

@@ -15,4 +15,6 @@ ColoringAlgorithm::~ColoringAlgorithm() {}
 
 void ColoringAlgorithm::setup() {}
 
+void ColoringAlgorithm::setup(const FractalCreator* fractal_creator) {}
+
 } /* namespace fractal */

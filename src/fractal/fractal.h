@@ -18,14 +18,15 @@ using FractalPoint = Point<double>;
 class Fractal {
 public:
 
-	Fractal(FractalPoint left_bottom = {-1, -1}, FractalPoint right_top = {1, 1}) :
+    Fractal(FractalPoint left_bottom = {-1, -1}, FractalPoint right_top = {1, 1}) :
         LEFT_BOTTOM(left_bottom), RIGHT_TOP(right_top) {}
     virtual ~Fractal() {}
-	virtual double getFractalValue(const FractalPoint& coords) const = 0;
+    virtual double getFractalValue(const FractalPoint& coords) const = 0;
+    virtual int getMaxIterations() const = 0;
 
 	// Points to describe fractal XY scale
 	const FractalPoint LEFT_BOTTOM;
-	const FractalPoint RIGHT_TOP;
+    const FractalPoint RIGHT_TOP;
 };
 
 } /* namespace fractal */

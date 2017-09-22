@@ -25,13 +25,16 @@ namespace fractal {
 
 class FractalCreator {
 public:
-	FractalCreator(int width, int height, std::shared_ptr<Fractal> fractal);
-	virtual ~FractalCreator();
+    FractalCreator(int width, int height, std::shared_ptr<Fractal> fractal);
+    virtual ~FractalCreator();
 
-    void calculateValues();
-	void addZoom(const Zoom& zoom);
-	bool removeZoom();
-	void rotate(double angle);
+    void calculateValues(std::shared_ptr<CoordinateTransformer> transform);
+    void calculateValues(const std::shared_ptr<Fractal> fractal, std::shared_ptr<CoordinateTransformer> transform);
+//	void addZoom(const Zoom& zoom);
+//	bool removeZoom();
+//	void rotate(double angle);
+
+    int getMaxIterations() const;
 
 	void drawFractal(std::shared_ptr<ColoringAlgorithm> coloring_algorithm);
     bool save(FileFormat* file_format, const std::string& file_name) const;
@@ -41,9 +44,9 @@ public:
 
 private:
 
-	std::shared_ptr<Fractal> _fractal;
+    std::shared_ptr<Fractal> _fractal;
     PixelArray _pixel_array;
-	CoordinateTransformer _coordinate_transformer;
+//	CoordinateTransformer _coordinate_transformer;
 	std::vector<double> _fractal_values;
 };
 

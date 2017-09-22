@@ -6,8 +6,13 @@
  */
 
 #include "linearinterpolatedcoloring.h"
+#include "fractalcreator.h"
 
 namespace fractal {
+
+void LinearInterpolatedColoring::setup(const FractalCreator *fractal_creator) {
+    _key_scale_factor = fractal_creator->getMaxIterations();
+}
 
 // Add a color to color palette
 bool LinearInterpolatedColoring::addColor(double key, const Color& color) {
@@ -18,7 +23,7 @@ bool LinearInterpolatedColoring::addColor(double key, const Color& color) {
 
 // Returns interpolated color from a normalized color palette
 Color LinearInterpolatedColoring::getColor(double key) const {
-	key = key / _max_iterations;
+    key /= _key_scale_factor;
 	// look for key in color map
 	auto iterator = _color_map.lower_bound(key);
 	if (iterator == _color_map.end())

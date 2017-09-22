@@ -16,19 +16,15 @@ namespace fractal {
 
 class LinearInterpolatedColoring : public ColoringAlgorithm {
 public:
-	LinearInterpolatedColoring(int max_iterations = 1) : _max_iterations(max_iterations) {}
-	Color getColor(double key) const;
+    void setup(const FractalCreator* fractal_creator) override;
+    Color getColor(double key) const override;
 
-	bool addColor(double key, const Color& color);
-
-	void setup(int max_iterations) {
-		_max_iterations = max_iterations;
-	}
+    bool addColor(double key, const Color& color);
 
 private:
 	using ColorMap = std::map<double, Color>;
 	ColorMap _color_map;
-	int _max_iterations;
+    int _key_scale_factor;
 };
 
 } /* namespace fractal */

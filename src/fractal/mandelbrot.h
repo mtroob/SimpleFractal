@@ -18,14 +18,12 @@ public:
 
 	Mandelbrot(int max_iterations, int escape_radius);
 
-	double getFractalValue(const FractalPoint& coords) const;
+    virtual double getFractalValue(const FractalPoint& coords) const override;
 
-	int getMaxIterations() const {
-		return _max_iterations;
-	}
+    virtual int getMaxIterations() const override;
 
 private:
-	int _max_iterations;
+    int _max_iterations;
 	int _escape_radius;
 };
 

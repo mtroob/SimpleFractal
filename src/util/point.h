@@ -25,14 +25,16 @@ namespace fractal {
 template <class T>
 struct Point {
 
-	template <class U>
-	Point(U x = 0, U y = 0) : x(x), y(y) {};
+    Point() : x(0), y(0) {}
 
 	template <class U>
-	Point(const Point<U>& other) : x(other.x),y(other.y) {};
+    Point(U x = 0, U y = 0) : x(x), y(y) {}
 
 	template <class U>
-	Point(Point<U>&& other) : x(move(other.x)),y(move(other.y)) {};
+    Point(const Point<U>& other) : x(other.x),y(other.y) {}
+
+	template <class U>
+    Point(Point<U>&& other) : x(move(other.x)),y(move(other.y)) {}
 
 	template <class U>
 	Point& operator=(const Point<U>& rhs) {
