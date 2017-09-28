@@ -5,13 +5,9 @@
  *      Author: michael
  */
 
-//#include <complex>
 #include <cmath>
 
 #include "mandelbrot.h"
-
-
-//using std::complex;
 
 namespace fractal {
 

@@ -20,6 +20,8 @@
 #include "color/linearinterpolatedcoloring.h"
 #include "transformation/coordinatetransformer.h"
 
+using namespace fractal;
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     _image_view = new QGraphicsView();
@@ -39,17 +41,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     _fractal_creator.reset(new FractalCreator(WIDTH, HEIGHT, _fractal_settings->getFractal()));
 
-//    _fractal_creator->addZoom(Zoom({WIDTH/4, HEIGHT/2}, 0.5));
-//    _fractal_creator->addZoom(fractal::Zoom({WIDTH/2, 3*HEIGHT/4}, 0.5));
-//    _fractal_creator->addZoom(fractal::Zoom({WIDTH/2, HEIGHT/2}, 0.5));
-
     connect(_fractal_settings, SIGNAL(settingsChanged()), this, SLOT(recalculate()));
 
     connect(_coloring_settings, SIGNAL(newColoring()), this, SLOT(updateImage()));
 
     connect(_transformation_settings, SIGNAL(transformationApplied()), this, SLOT(recalculate()));
 
-    //recalculate();
+    connect(_transformation_settings, &FractalTransformationWidget::zoomModeEnabled, this, &MainWindow::connectZoomSignals);
+}
+
+void MainWindow::connectZoomSignals(bool mode) {
+    if (mode) {
+        connect(_scene, SIGNAL(areaSelected(QRect)), _transformation_settings, SLOT(zoomInOnRect(QRect)));
+        connect(_scene, SIGNAL(leftButtonDoubleClicked(QPoint)), _transformation_settings, SLOT(zoomInOnPoint(QPoint)));
+        connect(_scene, SIGNAL(rightButtonClicked(QPoint)), _transformation_settings, SLOT(removeZoom()));
+    }
+    else {
+        disconnect(_scene, SIGNAL(areaSelected(QRect)), _transformation_settings, SLOT(zoomInOnRect(QRect)));
+        disconnect(_scene, SIGNAL(leftButtonDoubleClicked(QPoint)), _transformation_settings, SLOT(zoomInOnPoint(QPoint)));
+        disconnect(_scene, SIGNAL(rightButtonClicked(QPoint)), _transformation_settings, SLOT(removeZoom()));
+    }
+    _scene->selectionEnable(mode);
 }
 
 void MainWindow::createDockWindows() {
@@ -90,11 +102,9 @@ void MainWindow::updateImage() {
     // update fractal visual representation
     auto pixel_array = _fractal_creator->getPixelArray();
     QImage image(reinterpret_cast<unsigned char*>(pixel_array.data.data()), pixel_array.width, pixel_array.height, QImage::Format_RGB888);
-    _item->setPixmap(QPixmap::fromImage(image.mirrored(false, true)));
-    _scene->update();
+    _item->setPixmap(QPixmap::fromImage(image));
+    _scene->selectionReset();
     _image_view->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
-
-//    emit dummySignal();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {

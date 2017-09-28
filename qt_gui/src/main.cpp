@@ -1,6 +1,6 @@
 #include <QApplication>
 #include "mainwindow.h"
-#include "fractalcreatorwrapper.h"
+//#include "fractalcreatorwrapper.h"
 
 // for old_main
 #include <iostream>
@@ -30,9 +30,9 @@ int main(int argc, char *argv[])
     mw.resize(800, 600);
     mw.setWindowTitle("Fractal");
 
-    FractalCreatorWrapper fcw;
+//    FractalCreatorWrapper fcw;
 
-    QObject::connect(&mw, SIGNAL(dummySignal()), &fcw, SLOT(dummySlot()));
+//    QObject::connect(&mw, SIGNAL(dummySignal()), &fcw, SLOT(dummySlot()));
 
     // uncomment to check plain fractal functionality
 //    old_main();

@@ -36,6 +36,11 @@ public:
 	//			false if zooming out is impossible (_zoom_array is empty)
 	bool removeZoom();
 
+    // Checks if fractal is in default scale
+    // Returns: true if fractal is in it's default scale
+    //          false if fractal is zoomed in
+    bool defaultScale() const;
+
 	// Sets rotation angle (about the _center point of fractal image)
 	void setRotationAngle(double angle);
 

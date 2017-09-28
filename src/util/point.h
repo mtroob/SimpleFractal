@@ -31,10 +31,10 @@ struct Point {
     Point(U x = 0, U y = 0) : x(x), y(y) {}
 
 	template <class U>
-    Point(const Point<U>& other) : x(other.x),y(other.y) {}
+    Point(const Point<U>& other) : x(other.x), y(other.y) {}
 
 	template <class U>
-    Point(Point<U>&& other) : x(move(other.x)),y(move(other.y)) {}
+    Point(Point<U>&& other) : x(move(other.x)), y(move(other.y)) {}
 
 	template <class U>
 	Point& operator=(const Point<U>& rhs) {

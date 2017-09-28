@@ -29,6 +29,7 @@ protected:
 
 private:
     void createDockWindows();
+    void connectZoomSignals(bool mode);
 
     FractalGraphicsScene* _scene;
     QGraphicsView* _image_view;
