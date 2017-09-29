@@ -19,8 +19,11 @@ class FractalTransformationWidget : public QWidget
 public:
     explicit FractalTransformationWidget(QWidget *parent = 0);
     std::shared_ptr<CoordinateTransformer> getTransformation() const;
+    void setDimensions(int width, int height);
 
 private:
+    int _width;
+    int _height;
 //    QSpinBox* _x_coordinate;
 //    QSpinBox* _y_coordinate;
 //    QDoubleSpinBox* _zoom_factor;
@@ -48,6 +51,6 @@ private slots:
 };
 
 inline Point<int> qPointToPoint(const QPoint& point);
-Zoom qRectToZoom(const QRect& rect);
+inline Point<int> getCenterPoint(const QRect& rect);
 
 #endif // FRACTALTRANSFORMATIONWIDGET_H

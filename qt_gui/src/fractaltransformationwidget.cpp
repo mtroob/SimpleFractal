@@ -57,13 +57,18 @@ FractalTransformationWidget::FractalTransformationWidget(QWidget *parent) : QWid
     _transformation = std::shared_ptr<CoordinateTransformer>(new CoordinateTransformer);
 }
 
+void FractalTransformationWidget::setDimensions(int width, int height) {
+    _width = width;
+    _height = height;
+}
+
 std::shared_ptr<CoordinateTransformer> FractalTransformationWidget::getTransformation() const {
     return _transformation;
 }
 
 void FractalTransformationWidget::zoomInOnRect(QRect rect) {
 //    _remove_zoom->setEnabled(true);
-    _transformation->addZoom(qRectToZoom(rect));
+    _transformation->addZoom({getCenterPoint(rect), rect.width() / static_cast<double>(_width)});
     emit transformationApplied();
 }
 
@@ -104,7 +109,6 @@ inline Point<int> qPointToPoint(const QPoint& point) {
     return {point.x(), point.y()};
 }
 
-Zoom qRectToZoom(const QRect& rect) {
-    auto zoom_factor = rect.width() / static_cast<double>(900);
-    return {{rect.x() + rect.width()/2, rect.y() + rect.height()/2}, zoom_factor};
+inline Point<int> getCenterPoint(const QRect& rect) {
+    return {rect.x() + rect.width()/2, rect.y() + rect.height()/2};
 }

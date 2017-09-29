@@ -5,6 +5,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QDebug>
 
 #include "mainwindow.h"
 #include "fractalsettingswidget.h"
@@ -12,6 +13,7 @@
 #include "fractaltransformationwidget.h"
 #include "fractalgraphicsscene.h"
 #include "fractalgraphicsitem.h"
+#include "fractalgraphicsview.h"
 
 // for test
 #include <memory>
@@ -26,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     _image_view = new QGraphicsView();
     _scene = new FractalGraphicsScene();
-    _item = new FractalGraphicsItem();
+    _item = new QGraphicsPixmapItem();
     _item->setAcceptHoverEvents(true);
     _scene->addItem(_item);
 
@@ -36,11 +38,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     createDockWindows();
 
-    const int WIDTH {900};
-    const int HEIGHT {600};
+    auto dimenions = _fractal_settings->getDimensions();
 
-    _fractal_creator.reset(new FractalCreator(WIDTH, HEIGHT, _fractal_settings->getFractal()));
+    _fractal_creator.reset(new FractalCreator(dimenions.width(), dimenions.height(), _fractal_settings->getFractal()));
+    _transformation_settings->setDimensions(dimenions.width(), dimenions.height());
 
+    connect(_fractal_settings, SIGNAL(dimensionsChanged(QSize)), this, SLOT(updateImageDimensions(QSize)));
     connect(_fractal_settings, SIGNAL(settingsChanged()), this, SLOT(recalculate()));
 
     connect(_coloring_settings, SIGNAL(newColoring()), this, SLOT(updateImage()));
@@ -48,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(_transformation_settings, SIGNAL(transformationApplied()), this, SLOT(recalculate()));
 
     connect(_transformation_settings, &FractalTransformationWidget::zoomModeEnabled, this, &MainWindow::connectZoomSignals);
+
+
 }
 
 void MainWindow::connectZoomSignals(bool mode) {
@@ -88,6 +93,13 @@ void MainWindow::createDockWindows() {
     addDockWidget(Qt::RightDockWidgetArea, dock);
 }
 
+void MainWindow::updateImageDimensions(QSize size) {
+    qDebug() << Q_FUNC_INFO << size;
+    _fractal_creator.reset(new FractalCreator(size.width(), size.height(), _fractal_settings->getFractal()));
+    _transformation_settings->setDimensions(size.width(), size.height());
+    recalculate();
+}
+
 void MainWindow::recalculate() {
     _fractal_creator->calculateValues(_fractal_settings->getFractal(), _transformation_settings->getTransformation());
     updateImage();
@@ -104,6 +116,8 @@ void MainWindow::updateImage() {
     QImage image(reinterpret_cast<unsigned char*>(pixel_array.data.data()), pixel_array.width, pixel_array.height, QImage::Format_RGB888);
     _item->setPixmap(QPixmap::fromImage(image));
     _scene->selectionReset();
+    _scene->setSceneRect(_scene->itemsBoundingRect());
+//    _scene->updateSizeRect(_item->boundingRect());
     _image_view->fitInView(_scene->sceneRect(), Qt::KeepAspectRatio);
 }
 

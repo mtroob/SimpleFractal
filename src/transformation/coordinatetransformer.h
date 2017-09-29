@@ -49,7 +49,7 @@ public:
 
 	// Applies specified transformations to bitmap coordinates
 	// Returns resulting fractal coordinates
-	FractalPoint apply(const BitmapPoint& focus);
+    FractalPoint apply(const BitmapPoint& focus);
 
 private:
 

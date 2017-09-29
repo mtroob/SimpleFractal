@@ -14,7 +14,7 @@ namespace fractal {
 
 class Zoom {
 public:
-	using FocusPoint = Point<int>;
+    using FocusPoint = Point<int>;
 
 	Zoom(const FocusPoint& fp, double scale) : _focus(fp), _scale(scale) {}
 

@@ -11,8 +11,6 @@ class FractalGraphicsScene : public QGraphicsScene
 public:
     FractalGraphicsScene(QObject *parent = Q_NULLPTR);
 
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-
     // Enables/disables area selection mode
     void selectionEnable(bool enable);
     // Resets current area selection
@@ -20,13 +18,13 @@ public:
 
 protected:
 
+    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
 
-    QRect* _size_rect;
     bool _selection_enable;
     bool _selection_active;
     bool _mouse_moved;

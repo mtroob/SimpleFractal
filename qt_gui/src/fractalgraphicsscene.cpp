@@ -6,17 +6,17 @@
 
 FractalGraphicsScene::FractalGraphicsScene(QObject *parent)
 {
-    _size_rect = new QRect(0, 0, 900, 600);
-    _selection_rect = new QGraphicsRectItem();
-    _selection_rect->setZValue(1);
-    _selection_rect->setOpacity(0.2);
-    _selection_rect->setBrush(QBrush(Qt::white));
-    addItem(_selection_rect);
-
     _selection_active = false;
     _selection_enable = false;
     _mouse_moved = false;
 
+    // create and initialize selection rectangle
+    _selection_rect = new QGraphicsRectItem();
+    _selection_rect->setZValue(1);
+    _selection_rect->setOpacity(0.2);
+    _selection_rect->setBrush(QBrush(Qt::white));
+    _selection_rect->setVisible(false);
+    addItem(_selection_rect);
 }
 
 void FractalGraphicsScene::selectionEnable(bool enable) {
@@ -28,7 +28,7 @@ void FractalGraphicsScene::selectionReset() {
 }
 
 void FractalGraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-    if (event->button() == Qt::LeftButton) {
+    if (sceneRect().contains(event->scenePos().toPoint()) && event->button() == Qt::LeftButton) {
         qDebug() << "Double Left Click";
         emit leftButtonDoubleClicked(event->scenePos().toPoint());
     }
@@ -36,11 +36,12 @@ void FractalGraphicsScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event
 }
 
 void FractalGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    qDebug() << sceneRect().toRect();
     auto current_position = event->scenePos().toPoint();
     // start fractal area selection
     if (event->button() == Qt::LeftButton) {
         _mouse_moved = false;
-        if (_selection_enable && _size_rect->contains(current_position)) {
+        if (_selection_enable && sceneRect().contains(current_position)) {
             _selection_active = true;
             _selection_start_corner = current_position;
         }
@@ -50,12 +51,13 @@ void FractalGraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
 void FractalGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     _mouse_moved = true;
-    const auto X_Y_SCALE = 2.0 / 3.0;
     if (_selection_active) {
+        auto scene_rect = sceneRect().toRect();
+        const auto X_Y_SCALE = static_cast<double>(scene_rect.height()) / scene_rect.width();
         auto current_position = event->scenePos().toPoint();
 
         // fix current_position to be inside fractal drawing area
-        setLimits(current_position, *_size_rect);
+        setLimits(current_position, scene_rect);
 
         auto rect_size = abs(_selection_start_corner - current_position);
 
@@ -81,9 +83,9 @@ void FractalGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
                 }
 
                 auto right = _selection_start_corner.x() + x_direction * rect_size.x();
-                if (right > (_size_rect->width() - 1)) {
-                    rect_size.rx() -= right - (_size_rect->width() - 1);
-                    rect_size.ry() -= (right - (_size_rect->width() - 1)) * X_Y_SCALE;
+                if (right > (scene_rect.width() - 1)) {
+                    rect_size.rx() -= right - (scene_rect.width() - 1);
+                    rect_size.ry() -= (right - (scene_rect.width() - 1)) * X_Y_SCALE;
                 }
 
                 auto top = _selection_start_corner.y() + y_direction * rect_size.y();
@@ -93,9 +95,9 @@ void FractalGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
                 }
 
                 auto bottom = _selection_start_corner.y() + y_direction * rect_size.y();
-                if (bottom > (_size_rect->height() - 1)) {
-                    rect_size.ry() -= bottom - (_size_rect->height() - 1);
-                    rect_size.rx() -= (bottom - (_size_rect->height() - 1)) * 1 / X_Y_SCALE;
+                if (bottom > (scene_rect.height() - 1)) {
+                    rect_size.ry() -= bottom - (scene_rect.height() - 1);
+                    rect_size.rx() -= (bottom - (scene_rect.height() - 1)) * 1 / X_Y_SCALE;
                 }
 
                 current_position.rx() = _selection_start_corner.x() + x_direction * rect_size.x();
@@ -131,6 +133,7 @@ void FractalGraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void FractalGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    auto current_position = event->scenePos().toPoint();
     // end of area selection action
     if (_selection_enable && _selection_active && _mouse_moved) {
         _mouse_moved = false;
@@ -139,15 +142,15 @@ void FractalGraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         emit areaSelected(_selection_rect->rect().toRect());
     }
     // single mouse button clicks
-    else {
+    else if (sceneRect().contains(current_position)){
         switch (event->button()) {
         case Qt::RightButton :
             qDebug() << "Single Right Click";
-            emit rightButtonClicked(event->pos().toPoint());
+            emit rightButtonClicked(current_position);
             break;
         case Qt::LeftButton :
             qDebug() << "Single Left Click";
-            emit leftButtonClicked(event->pos().toPoint());
+            emit leftButtonClicked(current_position);
             break;
         default:
             break;

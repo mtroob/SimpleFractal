@@ -12,11 +12,13 @@ using namespace fractal;
 class QLabel;
 class QGraphicsView;
 class QGraphicsScene;
+class QGraphicsPixmapItem;
 class FractalGraphicsItem;
 class FractalSettingsWidget;
 class ColoringSettingsWidget;
 class FractalTransformationWidget;
 class FractalGraphicsScene;
+class FractalGraphicsView;
 
 class MainWindow : public QMainWindow
 {
@@ -33,7 +35,7 @@ private:
 
     FractalGraphicsScene* _scene;
     QGraphicsView* _image_view;
-    FractalGraphicsItem* _item;
+    QGraphicsPixmapItem* _item;
     FractalSettingsWidget* _fractal_settings;
     ColoringSettingsWidget* _coloring_settings;
     FractalTransformationWidget* _transformation_settings;
@@ -43,8 +45,11 @@ private:
 signals:
     void dummySignal();
 public slots:
+
+private slots:
     void recalculate();
     void updateImage();
+    void updateImageDimensions(QSize);
 };
 
 #endif // MAINWINDOW_H

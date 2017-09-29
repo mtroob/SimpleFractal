@@ -18,6 +18,10 @@
 #include "output/bmp/bmpfile.h"
 //
 
+#include <QFile>
+#include <QXmlStreamReader>
+#include <QDebug>
+
 void old_main();
 void drawFractal(FractalCreator& fc, std::shared_ptr<ColoringAlgorithm> coloring_algorithm, std::shared_ptr<CoordinateTransformer> transform, const std::string& file_name);
 
@@ -29,6 +33,30 @@ int main(int argc, char *argv[])
     mw.show();
     mw.resize(800, 600);
     mw.setWindowTitle("Fractal");
+
+    QFile file("../qt_gui/coloring_presets/coloring_presets.xml");
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        qDebug() << "Cannot read file" << file.errorString();
+        exit(0);
+    }
+
+    QXmlStreamReader reader(&file);
+    if (reader.readNextStartElement()) {
+        if (reader.name() == "coloring_preset") {
+            while(reader.readNextStartElement()) {
+                if (reader.name() == "color_entry") {
+                    qDebug() << "color_entry";
+                    while(reader.readNextStartElement()) {
+                        reader.readElementText();
+                    }
+                }
+                else
+                    reader.skipCurrentElement();
+            }
+        }
+    }
+
+    file.close();
 
 //    FractalCreatorWrapper fcw;
 

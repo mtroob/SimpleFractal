@@ -16,6 +16,7 @@ FractalSettingsWidget::FractalSettingsWidget(QWidget *parent) : QWidget(parent)
 {
     createLayout();
 
+    connect(_change_dimensions, SIGNAL(clicked(bool)), this, SLOT(changeDimensionsButtonPressed(bool)));
     connect(_apply_changes, SIGNAL(clicked(bool)), this, SLOT(applyButtonPressed(bool)));
     connect(_fractal_type, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
     connect(_max_iterations, SIGNAL(editingFinished()), this, SLOT(updateSettings()));
@@ -27,6 +28,19 @@ FractalSettingsWidget::FractalSettingsWidget(QWidget *parent) : QWidget(parent)
 void FractalSettingsWidget::createLayout() {
     QFormLayout* layout = new QFormLayout(this);
     layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+
+    _image_width = new QSpinBox();
+    _image_width->setRange(1, 10000);
+    _image_width->setValue(900);
+    layout->addWidget(_image_width);
+
+    _image_height = new QSpinBox();
+    _image_height->setRange(1, 10000);
+    _image_height->setValue(600);
+    layout->addWidget(_image_height);
+
+    _change_dimensions = new QPushButton(tr("Change Dimensions"));
+    layout->addWidget(_change_dimensions);
 
     _fractal_type = new QComboBox();
     _fractal_type->addItem(tr("Mandelbrot"));
@@ -48,18 +62,26 @@ void FractalSettingsWidget::createLayout() {
     this->setLayout(layout);
 }
 
+QSize FractalSettingsWidget::getDimensions() const {
+    return {_image_width->value(), _image_height->value()};
+}
+
 void FractalSettingsWidget::applyButtonPressed(bool state) {
     auto fractal_name = _fractal_type->currentText();
     if (fractal_name == "Mandelbrot") {
         _fractal.reset(new Mandelbrot(_max_iterations->value(), _escape_radius->value()));
     }
     emit settingsChanged();
-    std::cout << "FractalSettingsWidget::applyButtonPressed()" << std::endl;
+//    std::cout << "FractalSettingsWidget::applyButtonPressed()" << std::endl;
+}
+
+void FractalSettingsWidget::changeDimensionsButtonPressed(bool) {
+    emit dimensionsChanged({_image_width->value(), _image_height->value()});
 }
 
 void FractalSettingsWidget::updateSettings() {
 
-    std::cout << "FractalSettingsWidget::updateSettings()" << std::endl;
+//    std::cout << "FractalSettingsWidget::updateSettings()" << std::endl;
 }
 
 const std::shared_ptr<Fractal> FractalSettingsWidget::getFractal() const {
