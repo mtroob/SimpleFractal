@@ -5,6 +5,7 @@
 
 #include <memory>
 #include "color/coloringalgorithm.h"
+#include "color/linearinterpolatedcoloring.h"
 
 using namespace fractal;
 
@@ -20,13 +21,13 @@ public:
     std::shared_ptr<ColoringAlgorithm> getColoringAlgorithm() const;
 
 private:
+    void loadColorMaps();
+
     QComboBox* _coloring_type;
-//    QPushButton* _apply_changes;
+    QComboBox* _color_map_type;
 
     std::shared_ptr<ColoringAlgorithm> _coloring_algorithm;
-
-    int _min_colors = 2;
-    int _max_colors = 2;
+    std::map<std::string, std::shared_ptr<ColorMap>> _color_map_array;
 
 signals:
     void newColoring();
@@ -35,6 +36,7 @@ public slots:
 
 private slots:
     void algorithmChanged(QString);
+    void colorMapChanged(QString);
 };
 
 #endif // COLORINGSETTINGSWIDGET_H

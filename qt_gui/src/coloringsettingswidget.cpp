@@ -2,21 +2,30 @@
 #include <QPushButton>
 #include <QComboBox>
 #include <QLabel>
+#include <QFile>
+#include <QDebug>
+#include <QDir>
 
 #include "coloringsettingswidget.h"
+#include "colormapxmlreader.h"
 
 #include "color/simplecoloring.h"
 #include "color/linearinterpolatedcoloring.h"
 
 ColoringSettingsWidget::ColoringSettingsWidget(QWidget *parent) : QWidget(parent)
-{
+{    
     QFormLayout* layout = new QFormLayout(this);
     layout->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 
     _coloring_type = new QComboBox();
     _coloring_type->addItem(tr("Simple"));
     _coloring_type->addItem(tr("Linear interpolated"));
+    _coloring_type->model()->sort(0, Qt::AscendingOrder);
     layout->addRow(new QLabel(tr("Coloring")), _coloring_type);
+
+    _color_map_type = new QComboBox();
+    loadColorMaps();
+    layout->addRow(new QLabel(tr("Color Map")), _color_map_type);
 
 //    _apply_changes = new QPushButton("Apply");
 //    layout->addWidget(_apply_changes);
@@ -41,31 +50,57 @@ ColoringSettingsWidget::ColoringSettingsWidget(QWidget *parent) : QWidget(parent
     this->setLayout(layout);
 
     connect(_coloring_type, SIGNAL(currentIndexChanged(QString)), this, SLOT(algorithmChanged(QString)));
+    connect(_color_map_type, SIGNAL(currentIndexChanged(QString)), this, SLOT(colorMapChanged(QString)));
 
     algorithmChanged(_coloring_type->currentText());
 //    _coloring_algorithm.reset(new SimpleColoring(1000));
 }
 
+void ColoringSettingsWidget::loadColorMaps() {
+    // read directory with coloring presets
+    QDir directory("../qt_gui/color_maps/");
+
+    // get a list of xml files in directory
+    QStringList filters;
+    filters << "*.xml";
+    directory.setNameFilters(filters);
+    auto file_list = directory.entryList();
+
+    // parse each xml file and create color_map objects
+    for (const auto& file_name : file_list) {
+        QFile file(directory.absoluteFilePath(file_name));
+        if (!file.open(QFile::ReadOnly | QFile::Text)) {
+            qDebug() << "Cannot read file" << file.errorString();
+            continue;
+        }
+        std::shared_ptr<ColorMap> color_map {new ColorMap};
+        ColorMapXmlReader reader(color_map.get());
+        if (reader.read(&file)) {
+            auto item_name = reader.getName();
+            _color_map_array.emplace(item_name.toStdString(), color_map);
+            _color_map_type->addItem(item_name);
+        }
+        file.close();
+    }
+
+    _color_map_type->model()->sort(0, Qt::AscendingOrder);
+}
+
 void ColoringSettingsWidget::algorithmChanged(QString algorithm_name) {
     if (algorithm_name == tr("Simple")) {
         _coloring_algorithm.reset(new SimpleColoring());
-        _min_colors = 2;
-        _max_colors = 2;
     }
     else {
         auto coloring = new LinearInterpolatedColoring();
-        // TODO: load preset
-        _min_colors = 2;
-        _max_colors = -1;
-        coloring->addColor(0.0, {0, 7, 100});
-        coloring->addColor(0.02, {62, 230, 120});
-        coloring->addColor(0.08, {50, 107, 203});
-        coloring->addColor(0.32, {237, 255, 255});
-        coloring->addColor(0.6425, {255, 170, 0});
-        coloring->addColor(0.8575, {200, 2, 0});
-        coloring->addColor(1, {0, 0, 0});
+
         _coloring_algorithm.reset(coloring);
     }
+    _coloring_algorithm->setColorMap(_color_map_array.at(_color_map_type->currentText().toStdString()));
+    emit newColoring();
+}
+
+void ColoringSettingsWidget::colorMapChanged(QString color_map_name) {
+    _coloring_algorithm->setColorMap(_color_map_array.at(color_map_name.toStdString()));
     emit newColoring();
 }
 

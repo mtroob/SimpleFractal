@@ -18,7 +18,6 @@
 #include "output/bmp/bmpfile.h"
 //
 
-#include <QFile>
 #include <QXmlStreamReader>
 #include <QDebug>
 
@@ -31,32 +30,10 @@ int main(int argc, char *argv[])
 
     MainWindow mw;
     mw.show();
-    mw.resize(800, 600);
+    mw.showMaximized();
     mw.setWindowTitle("Fractal");
 
-    QFile file("../qt_gui/coloring_presets/coloring_presets.xml");
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        qDebug() << "Cannot read file" << file.errorString();
-        exit(0);
-    }
 
-    QXmlStreamReader reader(&file);
-    if (reader.readNextStartElement()) {
-        if (reader.name() == "coloring_preset") {
-            while(reader.readNextStartElement()) {
-                if (reader.name() == "color_entry") {
-                    qDebug() << "color_entry";
-                    while(reader.readNextStartElement()) {
-                        reader.readElementText();
-                    }
-                }
-                else
-                    reader.skipCurrentElement();
-            }
-        }
-    }
-
-    file.close();
 
 //    FractalCreatorWrapper fcw;
 
@@ -84,13 +61,16 @@ void old_main() {
 
         std::shared_ptr<LinearInterpolatedColoring> linear_coloring {new LinearInterpolatedColoring()};
 
-        linear_coloring->addColor(0.0, {0, 7, 100});
-        linear_coloring->addColor(0.02, {62, 230, 120});
-        linear_coloring->addColor(0.08, {50, 107, 203});
-        linear_coloring->addColor(0.32, {237, 255, 255});
-        linear_coloring->addColor(0.6425, {255, 170, 0});
-        linear_coloring->addColor(0.8575, {200, 2, 0});
-        linear_coloring->addColor(1, {0, 0, 0});
+        ColorMap color_map;
+
+        color_map.emplace(0.0, Color{0, 7, 100});
+        color_map.emplace(0.02, Color{62, 230, 120});
+        color_map.emplace(0.08, Color{50, 107, 203});
+        color_map.emplace(0.32, Color{237, 255, 255});
+        color_map.emplace(0.6425, Color{255, 170, 0});
+        color_map.emplace(0.8575, Color{200, 2, 0});
+        color_map.emplace(1, Color{0, 0, 0});
+        linear_coloring->setColorMap(&color_map);
 //        linear_coloring->addColor(0.0, {100, 7, 0});
 //        linear_coloring->addColor(0.02, {120, 230, 62});
 //        linear_coloring->addColor(0.08, {203, 107, 50});

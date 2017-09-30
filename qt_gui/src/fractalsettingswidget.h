@@ -22,6 +22,7 @@ public:
 
 private:
     inline void createLayout();
+    inline void connectSignals();
 
     QComboBox* _fractal_type;
     QPushButton* _apply_changes;
@@ -40,7 +41,7 @@ signals:
 public slots:
 
 private slots:
-    void updateSettings();
+//    void updateSettings();
     void applyButtonPressed(bool);
     void changeDimensionsButtonPressed(bool);
 };

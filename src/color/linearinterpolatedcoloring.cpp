@@ -14,19 +14,16 @@ void LinearInterpolatedColoring::setup(const FractalCreator *fractal_creator) {
     _key_scale_factor = fractal_creator->getMaxIterations();
 }
 
-// Add a color to color palette
-bool LinearInterpolatedColoring::addColor(double key, const Color& color) {
-	if (key < 0.0 || key > 1.0)
-		return false;
-	return _color_map.emplace(key, color).second;
+void LinearInterpolatedColoring::setColorMap(const std::shared_ptr<ColorMap> color_map) {
+    _color_map = color_map;
 }
 
 // Returns interpolated color from a normalized color palette
 Color LinearInterpolatedColoring::getColor(double key) const {
     key /= _key_scale_factor;
 	// look for key in color map
-	auto iterator = _color_map.lower_bound(key);
-	if (iterator == _color_map.end())
+    auto iterator = _color_map->lower_bound(key);
+    if (iterator == _color_map->end())
 		return (--iterator)->second;
 	if (iterator->first == key)
 		return iterator->second;

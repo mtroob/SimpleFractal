@@ -17,4 +17,6 @@ void ColoringAlgorithm::setup() {}
 
 void ColoringAlgorithm::setup(const FractalCreator* fractal_creator) {}
 
+void ColoringAlgorithm::setColorMap(const std::shared_ptr<ColorMap> color_map) {}
+
 } /* namespace fractal */

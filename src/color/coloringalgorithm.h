@@ -8,11 +8,15 @@
 #ifndef COLORINGALGORITHM_H_
 #define COLORINGALGORITHM_H_
 
+#include <map>
+#include <memory>
 #include "color.h"
 
 namespace fractal {
 
 class FractalCreator;
+
+using ColorMap = std::map<double, Color>;
 
 // Abstract interface for coloring algorithm implementations
 // Transformes key value to an RGB color
@@ -20,6 +24,8 @@ class ColoringAlgorithm {
 public:
 	ColoringAlgorithm();
 	virtual ~ColoringAlgorithm();
+    virtual void setColorMap(const std::shared_ptr<ColorMap> color_map);
+    // does not take ovnership of fractal_creator
     virtual void setup(const FractalCreator* fractal_creator);
     virtual void setup();
 	virtual Color getColor(double key) const = 0;

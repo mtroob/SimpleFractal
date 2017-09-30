@@ -15,12 +15,7 @@
 FractalSettingsWidget::FractalSettingsWidget(QWidget *parent) : QWidget(parent)
 {
     createLayout();
-
-    connect(_change_dimensions, SIGNAL(clicked(bool)), this, SLOT(changeDimensionsButtonPressed(bool)));
-    connect(_apply_changes, SIGNAL(clicked(bool)), this, SLOT(applyButtonPressed(bool)));
-    connect(_fractal_type, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
-    connect(_max_iterations, SIGNAL(editingFinished()), this, SLOT(updateSettings()));
-    connect(_escape_radius, SIGNAL(editingFinished()), this, SLOT(updateSettings()));
+    connectSignals();
 
     applyButtonPressed(true);
 }
@@ -62,6 +57,14 @@ void FractalSettingsWidget::createLayout() {
     this->setLayout(layout);
 }
 
+void FractalSettingsWidget::connectSignals() {
+    connect(_change_dimensions, SIGNAL(clicked(bool)), this, SLOT(changeDimensionsButtonPressed(bool)));
+    connect(_apply_changes, SIGNAL(clicked(bool)), this, SLOT(applyButtonPressed(bool)));
+//    connect(_fractal_type, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSettings()));
+//    connect(_max_iterations, SIGNAL(editingFinished()), this, SLOT(updateSettings()));
+//    connect(_escape_radius, SIGNAL(editingFinished()), this, SLOT(updateSettings()));
+}
+
 QSize FractalSettingsWidget::getDimensions() const {
     return {_image_width->value(), _image_height->value()};
 }
@@ -79,10 +82,10 @@ void FractalSettingsWidget::changeDimensionsButtonPressed(bool) {
     emit dimensionsChanged({_image_width->value(), _image_height->value()});
 }
 
-void FractalSettingsWidget::updateSettings() {
+//void FractalSettingsWidget::updateSettings() {
 
-//    std::cout << "FractalSettingsWidget::updateSettings()" << std::endl;
-}
+////    std::cout << "FractalSettingsWidget::updateSettings()" << std::endl;
+//}
 
 const std::shared_ptr<Fractal> FractalSettingsWidget::getFractal() const {
     return _fractal;

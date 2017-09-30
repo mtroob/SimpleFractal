@@ -51,8 +51,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(_transformation_settings, SIGNAL(transformationApplied()), this, SLOT(recalculate()));
 
     connect(_transformation_settings, &FractalTransformationWidget::zoomModeEnabled, this, &MainWindow::connectZoomSignals);
-
-
 }
 
 void MainWindow::connectZoomSignals(bool mode) {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--example with no DTD-->
+<color_map name = "basic inverted 1">
+	<color_entry key = "1.0" red = "0" green = "7" blue = "100" />
+	<color_entry key = "0.8575" red = "62" green = "230" blue = "120" />
+	<color_entry key = "0.6425" red = "50" green = "107" blue = "203" />
+	<color_entry key = "0.32" red = "237" green = "255" blue = "255" />
+	<color_entry key = "0.08" red = "255" green = "170" blue = "0" />
+	<color_entry key = "0.02" red = "200" green = "2" blue = "0" />
+	<color_entry key = "0.0" red = "0" green = "0" blue = "0" />
+</color_map>

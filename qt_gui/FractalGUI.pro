@@ -1,4 +1,5 @@
-QT       += core gui
+QT += core gui
+QT += xml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,7 +30,9 @@ HEADERS += \
     ../src/util/pixelarray.h \
     src/fractaltransformationwidget.h \
     src/fractalgraphicsscene.h \
-    src/fractalgraphicsitem.h
+    src/fractalgraphicsitem.h \
+    src/fractalgraphicsview.h \
+    src/colormapxmlreader.h
 
 SOURCES += \
     ../src/color/coloringalgorithm.cpp \
@@ -47,4 +50,6 @@ SOURCES += \
     ../src/output/bmp/bmpfile.cpp \
     src/fractaltransformationwidget.cpp \
     src/fractalgraphicsscene.cpp \
-    src/fractalgraphicsitem.cpp
+    src/fractalgraphicsitem.cpp \
+    src/fractalgraphicsview.cpp \
+    src/colormapxmlreader.cpp
