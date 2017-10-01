@@ -10,15 +10,14 @@
 
 namespace fractal {
 
-void LinearInterpolatedColoring::setup(const FractalCreator *fractal_creator) {
-    _key_scale_factor = fractal_creator->getMaxIterations();
-}
-
 void LinearInterpolatedColoring::setColorMap(const std::shared_ptr<ColorMap> color_map) {
     _color_map = color_map;
 }
 
-// Returns interpolated color from a normalized color palette
+void LinearInterpolatedColoring::setup(const FractalCreator *fractal_creator) {
+    _key_scale_factor = fractal_creator->getMaxIterations();
+}
+
 Color LinearInterpolatedColoring::getColor(double key) const {
     key /= _key_scale_factor;
 	// look for key in color map
@@ -32,7 +31,7 @@ Color LinearInterpolatedColoring::getColor(double key) const {
 	auto next = *iterator;
 	auto previous = *(--iterator);
 
-	// linear interpolate color components
+    // linear interpolation of color components
 	auto scale_factor = (key - previous.first) / (next.first - previous.first);
 	auto blue = static_cast<uint8_t>(previous.second.blue + (next.second.blue - previous.second.blue) * scale_factor);
 	auto red = static_cast<uint8_t>(previous.second.red + (next.second.red - previous.second.red) * scale_factor);

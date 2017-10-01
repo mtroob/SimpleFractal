@@ -46,7 +46,3 @@ void ColorMapXmlReader::readColorMap() {
 QString ColorMapXmlReader::getName() const {
     return *_name;
 }
-
-fractal::Color ColorMapXmlReader::readColor() {
-
-}

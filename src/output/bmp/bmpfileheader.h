@@ -17,6 +17,7 @@ using std::uint8_t;
 
 namespace fractal {
 
+// BMP file header
 struct BMPFileHeader {
 	uint8_t header[2]{'B', 'M'};
 	uint32_t file_size;

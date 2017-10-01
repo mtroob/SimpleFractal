@@ -25,11 +25,11 @@ FractalCreator::~FractalCreator() {}
 
 void FractalCreator::calculateValues(std::shared_ptr<CoordinateTransformer> transform) {
     transform->initialize(_pixel_array.width, _pixel_array.height,
-                                       _fractal->LEFT_BOTTOM, _fractal->RIGHT_TOP);
+                                       _fractal->leftBottom(), _fractal->rightTop());
     for (auto y = 0; y < _pixel_array.height; ++y) {
         for (auto x = 0; x < _pixel_array.width; ++x) {
             auto fractal_coords = transform->apply({x, y});
-            _fractal_values[y*_pixel_array.width + x] = _fractal->getFractalValue(fractal_coords);
+            _fractal_values[y*_pixel_array.width + x] = _fractal->calculateValue(fractal_coords);
         }
     }
 }
@@ -37,11 +37,11 @@ void FractalCreator::calculateValues(std::shared_ptr<CoordinateTransformer> tran
 void FractalCreator::calculateValues(const std::shared_ptr<Fractal> fractal, std::shared_ptr<CoordinateTransformer> transform) {
     _fractal = fractal;
     transform->initialize(_pixel_array.width, _pixel_array.height,
-                                       _fractal->LEFT_BOTTOM, _fractal->RIGHT_TOP);
+                                       _fractal->leftBottom(), _fractal->rightTop());
     for (auto y = 0; y < _pixel_array.height; ++y) {
         for (auto x = 0; x < _pixel_array.width; ++x) {
             auto fractal_coords = transform->apply({x, y});
-            _fractal_values[y*_pixel_array.width + x] = _fractal->getFractalValue(fractal_coords);
+            _fractal_values[y*_pixel_array.width + x] = _fractal->calculateValue(fractal_coords);
         }
     }
 }
@@ -82,7 +82,7 @@ double FractalCreator::getIterationCount(const BitmapPoint& point) const {
 }
 
 int FractalCreator::getMaxIterations() const {
-    return _fractal->getMaxIterations();
+    return _fractal->maxValue();
 }
 
 } /* namespace fractal */

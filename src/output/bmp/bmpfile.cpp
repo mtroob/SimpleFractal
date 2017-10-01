@@ -8,7 +8,7 @@
 #include <fstream>
 #include <string>
 
-#include "output/bmp/bmpfile.h"
+#include "bmpfile.h"
 
 using std::string;
 using std::ofstream;
@@ -26,7 +26,7 @@ void BMPFile::convert(const PixelArray& pixel_array) {
 
     _bitmap_size = pixel_array.width * pixel_array.height * sizeof(Color);
 
-    // fill necessary fields in bitmap headers
+    // fill image-specific fields in bitmap headers
     _file_header.data_offset = sizeof(BMPFileHeader) + sizeof(BMPInfoHeader);
     _file_header.file_size = _file_header.data_offset + _bitmap_size;
     _info_header.width = pixel_array.width;

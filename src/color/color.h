@@ -14,6 +14,7 @@ using std::uint8_t;
 
 namespace fractal {
 
+// RGB Color structure
 #pragma pack(push, 1)
 struct Color {
     uint8_t red;

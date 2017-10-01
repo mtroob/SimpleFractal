@@ -14,19 +14,20 @@ namespace fractal {
 
 using FractalPoint = Point<double>;
 
-// Provides abstract Fractal interface
+// Abstract Fractal interface
 class Fractal {
 public:
-
-    Fractal(FractalPoint left_bottom = {-1, -1}, FractalPoint right_top = {1, 1}) :
-        LEFT_BOTTOM(left_bottom), RIGHT_TOP(right_top) {}
-    virtual ~Fractal() {}
-    virtual double getFractalValue(const FractalPoint& coords) const = 0;
-    virtual int getMaxIterations() const = 0;
-
-	// Points to describe fractal XY scale
-	const FractalPoint LEFT_BOTTOM;
-    const FractalPoint RIGHT_TOP;
+    // Destructor
+    virtual ~Fractal();
+    // Returns the value of a fractal for the given coordinates
+    virtual double calculateValue(const FractalPoint& coords) const = 0;
+    // Returns maximum value of a fractal
+    virtual int maxValue() const = 0;
+    // Returns left bottom corner of the fractal coordinate range (minimum coordinate values)
+    virtual FractalPoint leftBottom() const = 0;
+    // Returns right top corner of the fractal coordinate range (maximum coordinate values)
+    virtual FractalPoint rightTop() const = 0;
+    // Points to describe fractal XY scale
 };
 
 } /* namespace fractal */

@@ -17,6 +17,7 @@ using std::uint16_t;
 
 namespace fractal {
 
+// BMP Information header (DIB)
 struct BMPInfoHeader {
     uint32_t header_size{40};
 	uint32_t width;

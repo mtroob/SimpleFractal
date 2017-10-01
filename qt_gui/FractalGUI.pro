@@ -12,7 +12,6 @@ HEADERS += \
     ../src/color/color.h \
     ../src/color/coloringalgorithm.h \
     ../src/color/linearinterpolatedcoloring.h \
-    ../src/color/simplecoloring.h \
     ../src/fractal/fractal.h \
     ../src/fractal/mandelbrot.h \
     ../src/transformation/coordinatetransformer.h \
@@ -32,12 +31,13 @@ HEADERS += \
     src/fractalgraphicsscene.h \
     src/fractalgraphicsitem.h \
     src/fractalgraphicsview.h \
-    src/colormapxmlreader.h
+    src/colormapxmlreader.h \
+    ../src/color/simplehalocoloring.h
 
 SOURCES += \
     ../src/color/coloringalgorithm.cpp \
     ../src/color/linearinterpolatedcoloring.cpp \
-    ../src/color/simplecoloring.cpp \
+    ../src/fractal/fractal.cpp \
     ../src/fractal/mandelbrot.cpp \
     ../src/transformation/coordinatetransformer.cpp \
     ../src/fractalcreator.cpp \
@@ -52,4 +52,5 @@ SOURCES += \
     src/fractalgraphicsscene.cpp \
     src/fractalgraphicsitem.cpp \
     src/fractalgraphicsview.cpp \
-    src/colormapxmlreader.cpp
+    src/colormapxmlreader.cpp \
+    ../src/color/simplehalocoloring.cpp

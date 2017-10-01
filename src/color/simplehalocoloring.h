@@ -1,34 +1,39 @@
 /*
- * linearinterpolatedcoloring.h
+ * SimpleColoring.h
  *
  *  Created on: Sep 6, 2017
  *      Author: michael
  */
 
-#ifndef LINEARINTERPOLATEDCOLORING_H_
-#define LINEARINTERPOLATEDCOLORING_H_
+#ifndef SIMPLEHALOCOLORING_H_
+#define SIMPLEHALOCOLORING_H_
 
 #include "coloringalgorithm.h"
 
 namespace fractal {
 
-// Uses linear interpolation between ColorMap entries to calculate color value.
-class LinearInterpolatedColoring : public ColoringAlgorithm {
+// Draws the fractal with a simple halo.
+// Uses a shade of a single color (white by default) to draw the halo,
+// while the other fractal areas are black;
+class SimpleHaloColoring: public ColoringAlgorithm {
 public:
+    SimpleHaloColoring();
     // Sets ColorMap object to use for color calculation.
     void setColorMap(const std::shared_ptr<ColorMap> color_map) override;
     // Performs inital setup based on FractalCreator internal state.
     void setup(const FractalCreator* fractal_creator) override;
     // Returns color value for a given key.
-    Color getColor(double key) const override;
+	Color getColor(double key) const;
 
 private:
-    // Pointer to a ColorMap object. Might be shared between different algorithms.
-    std::shared_ptr<ColorMap> _color_map;
+    // The color of the halo
+    Color _halo_color;
+    // The backgorund color
+    Color _background_color;
     // Key value scaling coefficient
     int _key_scale_factor;
 };
 
 } /* namespace fractal */
 
-#endif /* LINEARINTERPOLATEDCOLORING_H_ */
+#endif /* SIMPLEHALOCOLORING_H_ */

@@ -19,28 +19,13 @@ namespace fractal {
 CoordinateTransformer::CoordinateTransformer() {}
 
 void CoordinateTransformer::addZoom(const Zoom& zoom) {
-
     _zoom_array.push_back(zoom);
-
-    // TODO: check values for validity (account for dimensions, Mandelbrot scale and zoom scale
-    //	_center.x += (zoom._focus_point.x - _dimensions.x/2) * 3.0/_dimensions.x * _zoom_factor;
-    //	_center.y += (zoom._focus_point.y - _dimensions.y/2) * 2.0/_dimensions.y * _zoom_factor;
-
-//	_center += (zoom._focus - _bitmap_dimensions/2) * _fractal_dimensions/_bitmap_dimensions * _zoom_factor;
-
-//	_zoom_factor *= zoom._scale;
 }
 
 bool CoordinateTransformer::removeZoom() {
     if (_zoom_array.empty()) {
-//		_zoom_factor = 1;
         return false;
     }
-//	auto zoom = _zoom_array.back();
-
-//	_zoom_factor /= zoom._scale;
-//	_center -= (zoom._focus - _bitmap_dimensions/2) * _fractal_dimensions/_bitmap_dimensions * _zoom_factor;
-
     _zoom_array.pop_back();
     return true;
 }
@@ -57,13 +42,15 @@ void CoordinateTransformer::initialize(int width, int height, const FractalPoint
     _zoom_factor = 1;
 
     for(const auto& zoom : _zoom_array) {
-        _center += (zoom._focus - _bitmap_dimensions/2) * _fractal_dimensions/_bitmap_dimensions * _zoom_factor;
+        _center += (zoom._focus - _bitmap_dimensions/2)
+                * _fractal_dimensions/_bitmap_dimensions * _zoom_factor;
         _zoom_factor *= zoom._scale;
     }
 }
 
 FractalPoint CoordinateTransformer::apply(const BitmapPoint& focus) {
-    auto scaled_coordinates = (focus - _bitmap_dimensions/2) * _fractal_dimensions / _bitmap_dimensions * _zoom_factor;
+    auto scaled_coordinates = (focus - _bitmap_dimensions/2)
+            * _fractal_dimensions/ _bitmap_dimensions * _zoom_factor;
 
     auto rotated_coordinates = scaled_coordinates;
 

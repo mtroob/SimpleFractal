@@ -22,7 +22,6 @@ private:
     QXmlStreamReader _xml_reader;
 
     void readColorMap();
-    fractal::Color readColor();
 };
 
 #endif // COLORMAPXMLREADER_H

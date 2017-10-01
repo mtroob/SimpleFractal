@@ -13,7 +13,7 @@
 
 #include "fractalcreator.h"
 #include "color/linearinterpolatedcoloring.h"
-#include "color/simplecoloring.h"
+#include "color/simplehalocoloring.h"
 #include "fractal/mandelbrot.h"
 #include "output/bmp/bmpfile.h"
 //
@@ -57,20 +57,20 @@ void old_main() {
 
         FractalCreator fc(WIDTH, HEIGHT, fractal);
 
-        std::shared_ptr<SimpleColoring> simple_coloring {new SimpleColoring()};
+        std::shared_ptr<SimpleHaloColoring> simple_coloring {new SimpleHaloColoring()};
 
         std::shared_ptr<LinearInterpolatedColoring> linear_coloring {new LinearInterpolatedColoring()};
 
-        ColorMap color_map;
+        std::shared_ptr<ColorMap> color_map {new ColorMap()};
 
-        color_map.emplace(0.0, Color{0, 7, 100});
-        color_map.emplace(0.02, Color{62, 230, 120});
-        color_map.emplace(0.08, Color{50, 107, 203});
-        color_map.emplace(0.32, Color{237, 255, 255});
-        color_map.emplace(0.6425, Color{255, 170, 0});
-        color_map.emplace(0.8575, Color{200, 2, 0});
-        color_map.emplace(1, Color{0, 0, 0});
-        linear_coloring->setColorMap(&color_map);
+        color_map->emplace(0.0, Color{0, 7, 100});
+        color_map->emplace(0.02, Color{62, 230, 120});
+        color_map->emplace(0.08, Color{50, 107, 203});
+        color_map->emplace(0.32, Color{237, 255, 255});
+        color_map->emplace(0.6425, Color{255, 170, 0});
+        color_map->emplace(0.8575, Color{200, 2, 0});
+        color_map->emplace(1, Color{0, 0, 0});
+        linear_coloring->setColorMap(color_map);
 //        linear_coloring->addColor(0.0, {100, 7, 0});
 //        linear_coloring->addColor(0.02, {120, 230, 62});
 //        linear_coloring->addColor(0.08, {203, 107, 50});

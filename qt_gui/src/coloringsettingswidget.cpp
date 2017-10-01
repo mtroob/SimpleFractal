@@ -9,7 +9,7 @@
 #include "coloringsettingswidget.h"
 #include "colormapxmlreader.h"
 
-#include "color/simplecoloring.h"
+#include "color/simplehalocoloring.h"
 #include "color/linearinterpolatedcoloring.h"
 
 ColoringSettingsWidget::ColoringSettingsWidget(QWidget *parent) : QWidget(parent)
@@ -88,7 +88,7 @@ void ColoringSettingsWidget::loadColorMaps() {
 
 void ColoringSettingsWidget::algorithmChanged(QString algorithm_name) {
     if (algorithm_name == tr("Simple")) {
-        _coloring_algorithm.reset(new SimpleColoring());
+        _coloring_algorithm.reset(new SimpleHaloColoring());
     }
     else {
         auto coloring = new LinearInterpolatedColoring();
